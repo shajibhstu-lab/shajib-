@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>এসএসসি বিজ্ঞান (পদার্থ ও রসায়ন) অনলাইন পরীক্ষা</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=SolaimanLipi:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'SolaimanLipi', 'Inter', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between" oncontextmenu="return false;" oncopy="return false;" onpaste="return false;" oncut="return false;">
+
+    <header class="bg-indigo-700 text-white shadow-md py-4 px-6">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg md:text-xl font-bold">এসএসসি বিজ্ঞান: পদার্থ (১-৩) ও রসায়ন (১-৪) পরীক্ষা</h1>
+            <div id="timer-box" class="hidden bg-indigo-800 px-4 py-2 rounded-lg font-semibold text-amber-300 border border-indigo-600 shadow-inner">
+                সময় বাকী: <span id="time-display">60:00</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl w-full mx-auto p-4 md:p-6 my-6 flex-grow">
+        <!-- রেজিস্ট্রেশন সেকশন -->
+        <div id="registration-section" class="bg-white rounded-2xl shadow-xl p-6 md:p-10 border border-indigo-100">
+            <div class="text-center mb-8">
+                <span class="bg-indigo-100 text-indigo-700 text-sm font-semibold px-3 py-1 rounded-full uppercase tracking-wider">বিজ্ঞান যৌথ মূল্যায়ন</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mt-3">পদার্থবিজ্ঞান (১-৩) ও রসায়ন (১-৪)</h2>
+                <p class="text-slate-600 mt-2">পরীক্ষায় অংশগ্রহণের জন্য আপনার নাম ও রোল নম্বর এন্ট্রি করুন। মোট প্রশ্ন: ১০০টি | সময়: ৬০ মিনিট।</p>
+            </div>
+            
+            <form id="reg-form" class="space-y-6 max-w-lg mx-auto">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">পরীক্ষার্থীর পূর্ণ নাম:</label>
+                    <input type="text" id="student-name" required placeholder="আপনার নাম লিখুন" class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">রোল নম্বর / আইডি (ঐচ্ছিক):</label>
+                    <input type="text" id="student-roll" placeholder="রোল বা আইডি লিখুন" class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                </div>
+                <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-xl text-sm text-amber-800">
+                    <p class="font-bold mb-1">⚠️ গুরুত্বপূর্ণ নির্দেশনা:</p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>পরীক্ষা চলাকালীন ট্যাব পরিবর্তন বা ব্রাউজার মিনিমাইজ করলে সতর্কবার্তা দেওয়া হবে।</li>
+                        <li>নির্দিষ্ট সীমা পার হলে পরীক্ষা স্বয়ংক্রিয়ভাবে জমা হয়ে যাবে। রাইট-ক্লিক নিষিদ্ধ।</li>
+                    </ul>
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg transition duration-200">
+                    পরীক্ষা শুরু করুন
+                </button>
+            </form>
+        </div>
+
+        <!-- কুইজ সেকশন -->
+        <div id="quiz-section" class="hidden space-y-6">
+            <div id="warning-banner" class="hidden bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-r-lg shadow" role="alert">
+                সতর্কতা! পরীক্ষা চলাকালীন অন্য ট্যাবে যাওয়া নিষিদ্ধ। আপনার সতর্কতা বাকি আছে: <span id="warning-count" class="font-bold">3</span> বার।
+            </div>
+
+            <div id="questions-container" class="space-y-6"></div>
+
+            <div class="text-center pt-6">
+                <button id="submit-btn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-10 rounded-xl shadow-lg text-lg transition duration-200">
+                    পরীক্ষা জমা দিন (Submit)
+                </button>
+            </div>
+        </div>
+
+        <!-- ফলাফল সেকশন -->
+        <div id="result-section" class="hidden bg-white rounded-2xl shadow-xl p-6 md:p-10 border border-slate-100 space-y-8">
+            <div class="text-center border-b pb-6">
+                <span class="bg-emerald-100 text-emerald-700 text-sm font-semibold px-3 py-1 rounded-full">পরীক্ষা সম্পন্ন</span>
+                <h2 class="text-3xl font-bold text-slate-900 mt-2">ফলাফল ও মূল্যায়নপত্র</h2>
+                <p id="result-student-info" class="text-slate-600 mt-1 font-medium"></p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <p class="text-sm text-slate-500">মোট প্রশ্ন</p>
+                    <p id="res-total" class="text-2xl font-bold text-slate-800">১০০</p>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-200">
+                    <p class="text-sm text-emerald-600">সঠিক উত্তর</p>
+                    <p id="res-correct" class="text-2xl font-bold text-emerald-700">০</p>
+                </div>
+                <div class="bg-rose-50 p-4 rounded-xl border border-rose-200">
+                    <p class="text-sm text-rose-600">ভুল উত্তর</p>
+                    <p id="res-wrong" class="text-2xl font-bold text-rose-700">০</p>
+                </div>
+                <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-200">
+                    <p class="text-sm text-indigo-600">প্রাপ্ত নম্বর (%)</p>
+                    <p id="res-score-percent" class="text-2xl font-bold text-indigo-700">০%</p>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <h3 class="text-xl font-bold text-slate-800 border-b pb-2">সঠিক উত্তর ও ব্যাখ্যাসহ সলিউশন শিট</h3>
+                <div id="solutions-container" class="space-y-6"></div>
+            </div>
+
+            <div class="text-center pt-4">
+                <button onclick="location.reload();" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-xl shadow transition">
+                    পুনরায় পরীক্ষা দিন
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-slate-800 text-slate-400 py-6 text-center text-sm border-t border-slate-700">
+        <p>এসএসসি বিজ্ঞান কুইজ পোর্টাল | পদার্থ (১-৩) ও রসায়ন (১-৪)</p>
+    </footer>
+
+    <script>
+        const allQuestions = [
+            // পদার্থবিজ্ঞান অধ্যায় ১: ভৌত রাশি ও পরিমাপ (১-১৫)
+            { q: "এসআই (SI) এককের মূল একক কয়টি?", options: ["৫টি", "৬টি", "৭টি", "৯টি"], answer: 2, explanation: "এসআই পদ্ধতিতে মূল একক ৭টি।" },
+            { q: "নিচের কোনটি মৌলিক রাশি?", options: ["বেগ", "তড়িৎ প্রবাহ", "ক্ষেত্রফল", "ঘনত্ব"], answer: 1, explanation: "তড়িৎ প্রবাহ একটি মৌলিক রাশি।" },
+            { q: "ক্যান্ডেলা (cd) কোন রাশির একক?", options: ["জ্যোতিঃ তীব্রতা", "তাপমাত্রা", "পদার্থের পরিমাণ", "বল"], answer: 0, explanation: "ক্যান্ডেলা হলো জ্যোতিঃ তীব্রতার একক।" },
+            { q: "তাপমাত্রার এসআই একক কী?", options: ["সেলসিয়াস", "কেলভিন", "ফারেনহাইট", "জুল"], answer: 1, explanation: "তাপমাত্রার এসআই একক কেলভিন (K)।" },
+            { q: "সাধারণ স্কেলের সাহায্যে ক্ষুদ্রতম কত দৈর্ঘ্য নিখুঁতভাবে মাপা যায়?", options: ["\\(0.1 \\text{ mm}\\)", "\\(1 \\text{ mm}\\)", "\\(0.01 \\text{ mm}\\)", "\\(1 \\text{ cm}\\)"], answer: 1, explanation: "সাধারণ স্কেল দিয়ে ন্যূনতম ১ মিলিমিটার বা ০.১ সেন্টিমিটার মাপা যায়।" },
+            { q: "ভার্নিয়ার ধ্রুবক (VC) নির্ণয়ের সূত্র কোনটি?", options: ["\\(V = S - N\\)", "\\(V = 1 - \\frac{S}{N}\\)", "\\(V = \\frac{S}{N}\\)", "\\(V = S \\times N\\)"], answer: 2, explanation: "ভার্নিয়ার ধ্রুবক \\(V = S/N\\) (যেখানে S হলো প্রধান স্কেলের ক্ষুদ্রতম এক ভাগের দৈর্ঘ্য এবং N হলো ভার্নিয়ার ভাগের সংখ্যা)।" },
+            { q: "স্ক্রু-গজের বৃত্তাকার স্কেলের ভাগসংখ্যা সাধারণত কত হয়?", options: ["১০টি", "৫০টি", "১০০টি", "৫০০টি"], answer: 2, explanation: "স্ক্রু-গজের বৃত্তাকার স্কেলের ভাগসংখ্যা সাধারণত ১০০টি হয়।" },
+            { q: "কোনো পরিমাপে ত্রুটির মূল কারণ কোনটি?", options: ["যন্ত্রের ত্রুটি", "পরীক্ষকের অসতর্কতা", "পরীক্ষার পরিবেশ", "উপরের সবগুলো"], answer: 3, explanation: "যন্ত্রের ত্রুটি, পরীক্ষকের অসতর্কতা ও পরিবেশের প্রভাবে পরিমাপে ত্রুটি ঘটে।" },
+            { q: "গোলকের আয়তন নির্ণয়ের সূত্র কোনটি?", options: ["\\(\\pi r^2\\)", "\\(\\frac{4}{3}\\pi r^3\\)", "\\(4\\pi r^2\\)", "\\(\\pi r^2 h\\)"], answer: 1, explanation: "গোলকের আয়তনের সূত্র \\(\\frac{4}{3}\\pi r^3\\)।" },
+            { q: "পদার্থের পরিমাণের একক কী?", options: ["গ্রাম", "মোল", "কিলোগ্রাম", "অণু"], answer: 1, explanation: "পদার্থের পরিমাণের এসআই একক মোল (mol)।" },
+            { q: "লিটার কোন এককের অন্য রূপ?", options: ["ঘনমিটার", "ঘনসেন্টিমিটার", "ডেসিমিটার", "মিলিগ্রাম"], answer: 0, explanation: "\\(1 \\text{ L} = 10^{-3} \\text{ m}^3\\) অর্থাৎ এটি ঘনমিটারের সাথে সম্পর্কিত আয়তন একক।" },
+            { q: "পরিমাপের নির্ভুলতা কিসের ওপর নির্ভর করে?", options: ["যন্ত্রের সঠিকতার ওপর", "ব্যবহারকারীর দক্ষতার ওপর", "সঠিক পদ্ধতির ওপর", "উপরের সবগুলো"], answer: 3, explanation: "নির্ভুল পরিমাপের জন্য যন্ত্র, দক্ষতা ও সঠিক পদ্ধতি সবই দরকার।" },
+            { q: "কোনটি লব্ধ রাশি?", options: ["ভর", "সময়", "বল", "তাপমাত্রা"], answer: 2, explanation: "বল একটি লব্ধ রাশি কারণ এটি মৌলিক রাশি দ্বারা গঠিত।" },
+            { q: "ভার্নিয়ার সমপাতন হলো—", options: ["প্রধান স্কেলের দাগের সাথে ভার্নিয়ার স্কেলের মিল", "শূন্য ত্রুটি", "স্কেলের দৈর্ঘ্য", "কোনোটিই নয়"], answer: 0, explanation: "ভার্নিয়ার স্কেলের যে দাগ প্রধান স্কেলের কোনো দাগের সাথে মিলে যায় তাকে সমপাতন বলে।" },
+            { q: "ঘড়ি পরিমাপ করে—", options: ["দূরত্ব", "সময়", "দ্রুতি", "ত্বরণ"], answer: 1, explanation: "ঘড়ি সময় পরিমাপের যন্ত্র।" },
+
+            // পদার্থবিজ্ঞান অধ্যায় ২: গতি (১৬-৩০)
+            { q: "নির্দিষ্ট দিকে বস্তুর অবস্থানের পরিবর্তনকে কী বলে?", options: ["দ্রুতি", "সরণ", "ত্বরণ", "দূরত্ব"], answer: 1, explanation: "নির্দিষ্ট দিকে দূরত্ব হলো সরণ।" },
+            { q: "দ্রুতির এসআই একক কী?", options: ["\\(\\text{ms}^{-1}\\)", "\\(\\text{ms}^{-2}\\)", "\\(\\text{m}^2\\text{s}^{-1}\\)", "\\(\\text{m}\\)"], answer: 0, explanation: "দ্রুতি বা বেগের একক \\(\\text{ms}^{-1}\\)।" },
+            { q: "সমবেগে চলমান বস্তুর ত্বরণ কেমন হয়?", options: ["সর্বোচ্চ", "শূন্য", "ঋণাত্মক", "অসীম"], answer: 1, explanation: "সমবেগে বেগের পরিবর্তন না হওয়ায় ত্বরণ শূন্য হয়।" },
+            { q: "অভিকর্ষজ ত্বরণ \\(g\\)-এর আদর্শ মান কত?", options: ["\\(9.8 \\text{ ms}^{-2}\\)", "\\(9.81 \\text{ ms}^{-2}\\)", "\\(9.78 \\text{ ms}^{-2}\\)", "\\(10 \\text{ ms}^{-2}\\)"], answer: 0, explanation: "অভিকর্ষজ ত্বরণের আদর্শ মান \\(9.8 \\text{ ms}^{-2}\\)।" },
+            { q: "সুষম ত্বরণে চলমান বস্তুর ক্ষেত্রে বেগ ও সময়ের লেখচিত্রের প্রকৃতি কেমন হয়?", options: ["পরাবৃত্ত", "সরল রেখা", "বৃত্তাকার", "বক্ররেখা"], answer: 1, explanation: "বেগ-সময় লেখচিত্র একটি সরলরেখা হয়।" },
+            { q: "বেগ বৃদ্ধির হারকে কী বলে?", options: ["মন্দন", "ত্বরণ", "দ্রুতি", "সরণ"], answer: 2, explanation: "বেগ বৃদ্ধির হারকে ত্বরণ এবং হ্রাসের হারকে মন্দন বলে।" },
+            { q: "স্থির অবস্থা থেকে যাত্রা শুরু করে \\(t\\) সময়ে \\(v\\) বেগ অর্জন করলে ত্বরণ \\(a\\) কত?", options: ["\\(vt\\)", "\\(\\frac{v}{t}\\)", "\\(\\frac{t}{v}\\)", "\\(\\frac{1}{2}at^2\\)"], answer: 1, explanation: "\\(a = \\frac{v - u}{t} = \\frac{v}{0} ... \\Rightarrow a = \\frac{v}{t}\\)।" },
+            { q: "কোনো বস্তুর সরণ-সময় লেখচিত্রের ঢাল কী নির্দেশ করে?", options: ["ত্বরণ", "বেগ", "বল", "কাজ"], answer: 1, explanation: "সরণ-সময় লেখচিত্রের ঢাল বা নতি বেগ নির্দেশ করে।" },
+            { q: "মুক্তভাবে পড়ন্ত বস্তুর ক্ষেত্রে চতুর্থ সূত্রটি গ্যালিলিওর কোন বিষয়ের সাথে সম্পর্কিত?", options: ["বেগের সূত্র", "সময়ের সূত্র", "পাতিত দূরত্বের সূত্র", "ভরবেগের সূত্র"], answer: 1, explanation: "গ্যালিলিওর পড়ন্ত বস্তুর সূত্র অনুযায়ী নির্দিষ্ট সময়ে অতিক্রান্ত দূরত্ব সময়ের বর্গের সমানুপাতিক।" },
+            { q: "নিচের কোনটি ভেক্টর রাশি?", options: ["দ্রুতি", "দূরত্ব", "সরণ", "কাজ"], answer: 2, explanation: "সরণ একটি ভেক্টর রাশি।" },
+            { q: "একটি গাড়ি স্থির অবস্থা থেকে \\(2 \\text{ ms}^{-2}\\) ত্বরণে চলতে শুরু করলে \\(5 \\text{ s}\\) পরে এর বেগ কত হবে?", options: ["\\(5 \\text{ ms}^{-1}\\)", "\\(10 \\text{ ms}^{-1}\\)", "\\(20 \\text{ ms}^{-1}\\)", "\\(2.5 \\text{ ms}^{-1}\\)"], answer: 1, explanation: "\\(v = u + at = 0 + (2 \\times 5) = 10 \\text{ ms}^{-1}\\)।" },
+            { q: "বেগ-সময় লেখচিত্রের নিচের ক্ষেত্রফল কী নির্দেশ করে?", options: ["ত্বরণ", "সরণ", "বল", "শক্তি"], answer: 1, explanation: "বেগ-সময় লেখচিত্রের আওতাধীন ক্ষেত্রফল অতিক্রান্ত সরণ নির্দেশ කරයි।" },
+            { q: "পড়ন্ত বস্তুর ক্ষেত্রে নির্দিষ্ট সময়ে বেগ কিসের সমানুপাতিক?", options: ["উচ্চতার", "সময়ের", "ভরের", "অভিকর্ষজ ত্বরণের বর্গমূলের"], answer: 1, explanation: "গ্যালিলিওর প্রথম সূত্রানুযায়ী স্থির অবস্থান থেকে মুক্তভাবে পড়ন্ত বস্তু সমান সময়ে সমান বেগ অর্জন করে।" },
+            { q: "গতিশীল বস্তুর ক্ষেত্রে কোনটি অসম্ভব?", options: ["দ্রুতি আছে কিন্তু বেগ নেই", "বেগ আছে কিন্তু দ্রুতি নেই", "ত্বরণ আছে কিন্তু বেগ শূন্য হতে পারে", "সবগুলো"], answer: 1, explanation: "বেগ থাকা মানেই তার মান বা দ্রুতি থাকা আবশ্যক, তাই বেগ আছে কিন্তু দ্রুতি নেই এটি অসম্ভব।" },
+            { q: "সমতরণে চলমান বস্তুর ক্ষেত্রে \\(s = \\) ?", options: ["\\(vt\\)", "\\(\\frac{u+v}{2}t\\)", "\\(ut\\)", "\\(\\frac{1}{2}vt^2\\)"], answer: 1, explanation: "সরণের সমীকরণ \\(s = \\frac{u+v}{2}t\\)।" },
+
+            // পদার্থবিজ্ঞান অধ্যায় ৩: বল (৩১-৪৫)
+            { q: "নিউটনের গতির প্রথম সূত্র থেকে নিচের কোনটির ধারণা পাওয়া যায়?", options: ["বলের পরিমাপ", "জড়তা ও বলের সংজ্ঞা", "ভরবেগ", "ক্রিয়া ও প্রতিক্রিয়া"], answer: 1, explanation: "প্রথম সূত্র থেকে জড়তা এবং বলের গুণগত ধারণা পাওয়া যায়।" },
+            { q: "জড়তা প্রধানত কয় প্রকার?", options: ["২ প্রকার", "৩ প্রকার", "৪ প্রকার", "৫ প্রকার"], answer: 0, explanation: "জড়তা দুই প্রকার: স্থিতি জড়তা ও গতি জড়তা।" },
+            { q: "ভরবেগ (Momentum) হলো—", options: ["ভর ও বেগের গুণফল", "ভর ও ত্বরণের গুণফল", "বল ও সরণের গুণফল", "ভর ও দূরত্বের গুণফল"], answer: 0, explanation: "\\(p = mv\\) অর্থাৎ ভর ও বেগের গুণফল।" },
+            { q: "নিউটনের দ্বিতীয় সূত্র থেকে কোন সমীকরণটি প্রতিপাদন করা যায়?", options: ["\\(v = u + at\\)", "\\(F = ma\\)", "\\(s = ut + \\frac{1}{2}at^2\\)", "\\(E_k = \\frac{1}{2}mv^2\\)"], answer: 1, explanation: "নিউটনের দ্বিতীয় সূত্র থেকে \\(F = ma\\) পাওয়া যায়।" },
+            { q: "বলের এসআই একক কী?", options: ["জুল", "ওয়াট", "নিউটন", "পাসকাল"], answer: 2, explanation: "বলের একক নিউটন (N)।" },
+            { q: "ক্রিয়া ও প্রতিক্রিয়া বলের মধ্যবর্তী কোণ বা সম্পর্ক কেমন?", options: ["সমান ও বিপরীতমুখী", "সমান ও একই দিকে", "ভিন্ন মানের", "কোনোটিই নয়"], answer: 0, explanation: "তৃতীয় সূত্র অনুযায়ী প্রতিটি ক্রিয়ারই একটি সমান ও বিপরীত প্রতিক্রিয়া আছে।" },
+            { q: "ঘর্ষণ বল সবসময় গতির কোন দিকে কাজ করে?", options: ["গতির দিকে", "গতির বিপরীত দিকে", "লম্বভাবে", "কোনোটিই নয়"], answer: 1, explanation: "ঘর্ষণ বল সবসময় গতির বা গতির চেষ্টার বিপরীতে কাজ করে।" },
+            { q: "গাড়িতে ব্রেক কষে থামানোর সময় যাত্রীরা সামনের দিকে ঝুঁকে পড়ে কেন?", options: ["স্থিতি জড়তার কারণে", "গতি জড়তার কারণে", "মহাকর্ষ বলের কারণে", "ঘর্ষণের কারণে"], answer: 1, explanation: "চলন্ত গাড়িতে শরীরের গতি জড়তা বজায় থাকতে চাওয়ায় সামনের দিকে ঝোঁক হয়।" },
+            { q: "বলের মাত্রা সমীকরণ কোনটি?", options: ["\\(MLT^{-1}\\)", "\\(MLT^{-2}\\)", "\\(ML^2T^{-2}\\)", "\\(ML^{-1}T^{-2}\\)"], answer: 1, explanation: "বল \\(F = ma = M \\cdot LT^{-2} = MLT^{-2}\\)।" },
+            { q: " \\(5 \\text{ kg}\\) ভরের একটি বস্তুর ওপর \\(20 \\text{ N}\\) বল প্রয়োগ করলে ত্বরণ কত হবে?", options: ["\\(4 \\text{ ms}^{-2}\\)", "\\(100 \\text{ ms}^{-2}\\)", "\\(0.25 \\text{ ms}^{-2}\\)", "\\(10 \\text{ ms}^{-2}\\)"], answer: 0, explanation: "\\(a = \\frac{F}{m} = \\frac{20}{5} = 4 \\text{ ms}^{-2}\\)।" },
+            { q: "রকেটের ত্বরণ ও গতি কোন সূত্রের ওপর ভিত্তি করে কাজ করে?", options: ["নিউটনের প্রথম সূত্র", "নিউটনের দ্বিতীয় সূত্র", "নিউটনের তৃতীয় সূত্র ও ভরবেগ সংরক্ষণ", "শক্তির সংরক্ষণশীলতা"], answer: 2, explanation: "রকেট কার্যপদ্ধতি ভরবেগ সংরক্ষণ ও নিউটনের ৩য় সূত্রের ওপর প্রতিষ্ঠিত।" },
+            { q: "ঘর্ষণ বলের মান কিসের ওপর নির্ভর করে না?", options: ["তলের প্রকৃতির ওপর", "উভয় তলের মধ্যকার লম্ব বলের ওপর", "তলের ক্ষেত্রফলের ওপর", "সবগুলো"], answer: 2, explanation: "ঘর্ষণ বল সাধারণত সংস্পর্শে থাকা তলের ক্ষেত্রফলের ওপর নির্ভর করে না।" },
+            { q: "স্লিপিং বা পিছলে যাওয়া রোধ করতে গাড়ির চাকার টায়ারে খাঁজ কাটা হয় কেন?", options: ["ঘর্ষণ বাড়ানোর জন্য", "ঘর্ষণ কমানোর জন্য", "সৌন্দর্যের জন্য", "ওজন কমানোর জন্য"], answer: 0, explanation: "খাঁজ কেটে ঘর্ষণ বাড়িয়ে পিছলে যাওয়া রোধ করা হয়।" },
+            { q: "নিচের কোনটি সংরক্ষণশীল বল?", options: ["ঘর্ষণ বল", "সান্দ্র বল", "মহাকর্ষ বল", "বাতাসের বাধা"], answer: 2, explanation: "মহাকর্ষ বল একটি সংরক্ষণশীল বল।" },
+            { q: "ভরবেগ সংরক্ষণের সূত্র অনুযায়ী বাহ্যিক কোনো বল প্রযুক্ত না হলে মোট ভরবেগ—", options: ["পরিবর্তিত হয়", "সর্বদা অপরিবর্তিত বা সংরক্ষিত থাকে", "শূন্য হয়", "দ্বিগুণ হয়"], answer: 1, explanation: "বাহ্যিক বল না থাকলে সংঘর্ষের পূর্বে ও পরের মোট ভরবেগ সমান থাকে।" },
+
+            // রসায়ন অধ্যায় ১: রসায়নের ধারণা (৪৬-৬০)
+            { q: "রসায়ন বিজ্ঞানের মূল আলোচ্য বিষয় কোনটি?", options: ["মহাকাশ ও নক্ষত্র", "পদার্থের গঠন, ধর্ম ও পরিবর্তন", "জীবদেহের রোগ ও চিকিৎসা", "বিদ্যুৎ ও চৌম্বক ক্ষেত্র"], answer: 1, explanation: "পদার্থের গঠন, বৈশিষ্ট্য এবং রাসায়নিক পরিবর্তন হলো রসায়নের মূল বিষয়।" },
+            { q: "ল্যাভোসিয়ারের সময়কাল আধুনিক রসায়নের ক্ষেত্রে কোন শতকে ধরা হয়?", options: ["অষ্টাদশ শতক", "ষোড়শ শতক", "বিংশ শতক", "উনবিংশ শতক"], answer: 0, explanation: "অষ্টাদশ শতাব্দীতে অ্যান্টোনি ল্যাভোসিয়ারের কাজের মাধ্যমে আধুনিক রসায়নের ভিত্তি স্থাপিত হয়।" },
+            { q: "আল-রাজি কোন মুসলিম রসায়নবিদ বা বিজ্ঞানী ছিলেন?",options: ["পদার্থবিদ", "চিকিৎসক ও রসায়নবিদ", "গণিতবিদ", "নভোচারী"], answer: 1, explanation: "আল-রাজি বিখ্যাত চিকিৎসক ও রসায়নবিদ ছিলেন যিনি সাবান ও পাতন প্রক্রিয়া নিয়ে কাজ করেন।" },
+            { q: "জাবির ইবনে হাইয়ানকে কিসের জনক বলা হয়?", options: ["পদার্থবিজ্ঞানের", "রসায়নের", "জীববিজ্ঞানের", "জ্যোতির্বিজ্ঞানের"], answer: 1, explanation: "জাবির ইবনে হাইয়ানকে ইয়া মুসাইল বা আরবীয় রসায়নের জনক বলা হয়।" },
+            { q: "ল্যাবরেটরিতে কাজ করার সময় চোখের সুরক্ষায় কোনটি ব্যবহার করা আবশ্যক?", options: ["অ্যাপ্রন", "সেফটি গগলস বা চশমা", "হাতমোজা", "মাস্ক"], answer: 1, explanation: "চোখের সুরক্ষার জন্য সেফটি গগলস পরা জরুরি।" },
+            { q: "কোন সংকেতটি বিষাক্ত পদার্থ (Toxic) নির্দেশ করে?", options: ["স্কাল অ্যান্ড ক্রসবোনস (কঙ্কাল)", "আগুন শিখা", "বিস্ফোরণ চিহ্ন", "গাছের মরা পাতা ও মাছ"], answer: 0, explanation: "বিষাক্ত বা টক্সিক পদার্থের গায়ে খুলি বা স্কাল ও ক্রসবোন চিহ্ন থাকে।" },
+            { q: "পরীক্ষাগারে ঘন এসিড চোখে পড়লে প্রথমে কী করা উচিত?", options: ["সঙ্গে সঙ্গে কাপড় দিয়ে মোছা", "প্রচুর পানি দিয়ে ধোয়া", "তেল লাগানো", "কিছুই না করা"], answer: 1, explanation: "চোখে বা ত্বকে এসিড পড়লে প্রচুর পানি দিয়ে ধুতে হবে।" },
+            { q: "আলকেমি (Alchemy) শব্দটি মূলত কোন ভাষা থেকে এসেছে?", options: ["গ্রীক", "ল্যাটিন", "আরবি আল-কিমিয়া", "হিব্রু"], answer: 2, explanation: "আরবি 'আল-কিমিয়া' থেকে আলকেমি শব্দের উৎপত্তি।" },
+            { q: "নিচের কোনটি পরীক্ষাগারে ব্যবহৃত ক্ষতিকারক পদার্থ নয়?", options: ["সোডিয়াম ক্লোরাইড (লবণ)", "স্লুফরিক এসিড", "সোডিয়াম হাইড্রক্সাইড", "বেনজিন"], answer: 0, explanation: "সাধারণ লবণ ক্ষতিকারক নয়।" },
+            { q: "কোন বিজ্ঞানী প্রথম প্রমাণ করেন যে বায়ু কোনো মৌলিক পদার্থ নয়, বরং মিশ্রণ?", options: ["জন ডালটন", "অ্যান্টোনি ল্যাভোসিয়ার", "রবার্ট বয়েল", "মাদাম কুরি"], answer: 1, explanation: "ল্যাভোসিয়ার প্রমাণ করেন বায়ু অক্সিজেন ও নাইট্রোজেনের মিশ্রণ।" },
+            { q: "পরীক্ষাগারের বর্জ্য ব্যবস্থাপনায় সরাসরি বেসিনে ফেলা যায় না কোনটি?", options: ["পানি", "গাঢ় এসিড ও ক্ষার", "সাবান পানি", "লবণের লঘু দ্রবণ"], answer: 1, explanation: "গাঢ় এসিড বা ক্ষার সরাসরি পাইপ ও পরিবেশের ক্ষতি করে।" },
+            { q: "কোনটি রাসায়নিক পরিবর্তনের উদাহরণ?", options: ["বরফ গলন", "লোহায় মরিচা ধরা", "পানির বাষ্পীভবন", "চিনি পানিতে দ্রবীভূত হওয়া"], answer: 1, explanation: "লোহায় মরিচা ধরা একটি নতুন পদার্থ তৈরির রাসায়নিক পরিবর্তন।" },
+            { q: "প্রাকৃতিক শিলা থেকে ধাতু নিষ্কাশন ও বিশুদ্ধকরণ রসায়নের কোন শাখার অন্তর্ভুক্ত?", options: ["জৈব রসায়ন", "অজৈব রসায়ন", "ভৌত রসায়ন", "বায়োকেমিস্ট্রি"], answer: 1, explanation: "ধাতু ও খনিজ সম্পর্কিত আলোচনা অজৈব রসায়নের অন্তর্ভুক্ত।" },
+            { q: "রবার্ট বয়েলের বিখ্যাত গ্রন্থটির নাম কী?", options: ["The Sceptical Chymist", "Al-Kimia", "Elements", "Principia"], answer: 0, explanation: "রবার্ট বয়েল 'The Sceptical Chymist' গ্রন্থে মৌলিক পদার্থের আধুনিক সংজ্ঞা দেন।" },
+            { q: "নিচের কোনটি বিস্ফোরক পদার্থ নির্দেশক সাংকেতিক চিহ্ন?", options: ["বিস্ফোরণ ঘটন্ত গোলক বা ফাটল চিহ্ন", "আগুন", "তেজস্ক্রিয়তা", "বিষাক্ত"], answer: 0, explanation: "বিস্ফোরক দ্রব্যের গায়ে বিস্ফোরক বা এক্সপ্লোসিভ প্রতীক থাকে।" },
+
+            // রসায়ন অধ্যায় ২: পদার্থের গঠন (৬১-৭৫)
+            { q: "পরমাণুর নিউক্লিয়াসে কী কী কণা থাকে?", options: ["প্রোটন ও ইলেকট্রন", "প্রোটন ও নিউট্রন", "ইলেকট্রন ও নিউট্রন", "শুধু প্রোটন"], answer: 1, explanation: "নিউক্লিয়াসে প্রোটন এবং নিউট্রন অবস্থান করে।" },
+            { q: "ইলেকট্রন আবিষ্কার করেন কে?", options: ["জে জে থমসন", "রদারফোর্ড", "চ্যাডউইক", "জন ডালটন"], answer: 0, explanation: "জে জে থমসন ক্যাথোড রশ্মি পরীক্ষার মাধ্যমে ইলেকট্রন আবিষ্কার করেন।" },
+            { q: "নিউট্রনের ভর কার ভরের প্রায় সমান?", options: ["ইলেকট্রন", "প্রোটন", "আলফা কণা", "পজিট্রন"], answer: 1, explanation: "নিউট্রন ও প্রোটনের ভর প্রায় সমান।" },
+            { q: "আইসোটোপে কোন কণার সংখ্যা সমান থাকে?", options: ["নিউট্রন", "প্রোটন বা পারমাণবিক সংখ্যা", "ভরসংখ্যা", "ইলেকট্রন ও নিউট্রন উভয়ই"], answer: 1, explanation: "আইসোটোপগুলোর প্রোটন সংখ্যা সমান কিন্তু ভরসংখ্যা ভিন্ন।" },
+            { q: " \\(^{12}_{6}\\text{C}\\) পরমাণুর নিউট্রন সংখ্যা কত?", options: ["৬", "১২", "১৮", "০"], answer: 0, explanation: "নিউট্রন সংখ্যা = ভরসংখ্যা - প্রোটন সংখ্যা = 12 - 6 = 6।" },
+            { q: "রদারফোর্ডের পরমাণু মডেলকে কোন মডেলের সাথে তুলনা করা হয়?", options: ["প্লাম পুডিং মডেল", "সৌর মডেল", "ওয়েভ মডেল", "বোর মডেল"], answer: 1, explanation: "সূর্যকে কেন্দ্র করে গ্রহগুলোর ঘূর্ণনের সাথে তুলনা করায় একে সৌর মডেল বলা হয়।" },
+            { q: "কোন শক্তিস্তরে সর্বোচ্চ ইলেকট্রন ধারণক্ষমতা নির্ণয়ের সূত্র কোনটি?", options: ["\\(n^2\\)", "\\(2n^2\\)", "\\(2n\\)", "\\(n(n+1)\\)"], answer: 1, explanation: "সর্বোচ্চ ইলেকট্রন ধারণক্ষমতা \\(2n^2\\)।" },
+            { q: " \\(M\\) শেল বা শক্তিস্তরে (\\(n=3\\)) সর্বোচ্চ কয়টি ইলেকট্রন থাকতে পারে?", options: ["৮টি", "১৮টি", "৩২টি", "৩২টি"], answer: 1, explanation: "\\(2 \\times 3^2 = 2 \\times 9 = 18\\)টি।" },
+            { q: "কোনটি তেজস্ক্রিয় আইসোটোপের ব্যবহার নয়?", options: ["ক্যান্সার চিকিৎসায় কোবাল্ট-৬০", "গয়টার রোগ নির্ণয়ে আয়োডিন-১৩১", "কৃষিতে ফসফরাস-৩২", "পানির পিএইচ মাপতে"], answer: 3, explanation: "পিএইচ মাপার জন্য পিএইচ মিটার বা নির্দেশক ব্যবহার করা হয়।" },
+            { q: "ডালটনের পরমাণুবাদ অনুযায়ী—", options: ["পরমাণু অবিভাজ্য", "পরমাণু ধ্বংস করা যায়", "একই মৌলের পরমাণু ভিন্ন হয়", "কোনোটিই নয়"], answer: 0, explanation: "ডালটনের মতে পরমাণু অবিভাজ্য।" },
+            { q: "ভরসংখ্যা \\(A\\) সমান কী?", options: ["\\(p + n\\)", "\\(e + p\\)", "\\(n - p\\)", "\\(p - e\\)"], answer: 0, explanation: "ভরসংখ্যা = প্রোটন সংখ্যা (p) + নিউট্রন সংখ্যা (n)।" },
+            { q: "হাইড্রোজেনের আইসোটোপ প্রোটিয়ামে কয়টি নিউট্রন থাকে?", options: ["০টি", "১টি", " ২টি", "৩টি"], answer: 0, explanation: "প্রোটিয়ামে \\(^1_1\\text{H}\\) কোনো নিউট্রন থাকে না (1-1 = 0)।" },
+            { q: "ক্যাথোড রশ্মি মূলত কিসের স্রোত?", options: ["প্রোটন", "নিউট্রন", "ইলেকট্রন", "আলফা কণা"], answer: 2, explanation: "ক্যাথোড রশ্মি ঋণাত্মক আধানযুক্ত ইলেকট্রনের স্রোত।" },
+            { q: "কোন কক্ষপথকে \\(K\\) শেল বলা হয়?", options: ["প্রথম কক্ষপথ", "দ্বিতীয় কক্ষপথ", "তৃতীয় কক্ষপথ", "চতুর্থ কক্ষপথ"], answer: 0, explanation: "\\(n=1\\) অর্থাৎ প্রথম শক্তিস্তরকে \\(K\\) শেল বলে।" },
+            { q: "পারমাণবিক সংখ্যা \\(Z\\) কী নির্দেশ করে?", options: ["নিউট্রন সংখ্যা", "প্রোটন সংখ্যা", "নিউক্লিয়ন সংখ্যা", "ইলেকট্রন ও নিউট্রনের যোগফল"], answer: 1, explanation: "পারমাণবিক সংখ্যা হলো নিউক্লিয়াসে উপস্থিত প্রোটন সংখ্যা।" },
+
+            // রসায়ন অধ্যায় ৩: পদার্থের পর্যায়বৃত্ত ধর্ম ও রাসায়নিক বন্ধন (৭৬-৯০)
+            { q: "আধুনিক পর্যায় সারণির ভিত্তি কী?", options: ["পরমাণুর ভরসংখ্যা", "পারমাণবিক সংখ্যা", "ইলেকট্রন বিন্যাস", "যোজনী"], answer: 1, explanation: "মোজলের আধুনিক পর্যায় সূত্র পারমাণবিক সংখ্যার ওপর প্রতিষ্ঠিত।" },
+            { q: "পর্যায় সারণিতে মোট পর্যায় কয়টি?", options: ["৭টি", "১৮টি", "৮টি", "১৬টি"], answer: 0, explanation: "পর্যায় সারণিতে অনুভূমিক সারি বা পর্যায় ৭টি।" },
+            { q: "পর্যায় সারণিতে উলম্ব কলাম বা গ্রুপের সংখ্যা কয়টি?", options: ["৭টি", "৮টি", "১৬টি", "১৮টি"], answer: 3, explanation: "গ্রুপ বা শ্রেণির সংখ্যা ১৮টি।" },
+            { q: "গ্রুপ ১-এর মৌলগুলোকে কী বলা হয়?", options: ["হ্যালোজেন", "ক্ষার ধাতু", "মৃৎক্ষার ধাতু", "নিষ্ক্রিয় গ্যাস"], answer: 1, explanation: "গ্রুপ ১-এর মৌলগুলো (হাইড্রোজেন ছাড়া) ক্ষার ধাতু নামে পরিচিত।" },
+            { q: "নিচের কোনটি হ্যালোজেন মৌল?", options: ["সোডিয়াম", "ক্লোরিন", "নিয়ন", "ক্যালসিয়াম"], answer: 1, explanation: "গ্রুপ ১৭-এর মৌল যেমন ফ্লোরিন, ক্লোরিন হলো হ্যালোজেন।" },
+            { q: "গ্রুপ ১৮-এর মৌলগুলোর অপর নাম কী?", options: ["মৃৎক্ষার ধাতু", "আদর্শ ধাতু", "অবস্থান্তর মৌল", "নিষ্ক্রিয় গ্যাস বা নোবেল গ্যাস"], answer: 3, explanation: "এদের নিষ্ক্রিয় গ্যাস বলা হয় কারণ এদের যোজনী শেল পূর্ণ থাকে।" },
+            { q: "সোডিয়াম ( \\(Na\\) )-এর ইলেকট্রন বিন্যাস কোনটি?", options: ["\\(2, 8, 1\\)", "\\(2, 7, 2\\)", "\\(2, 8, 2\\)", "\\(2, 6\\)"], answer: 0, explanation: "সোডিয়ামের পারমাণবিক সংখ্যা ১১, বিন্যাস \\(2, 8, 1\\)।" },
+            { q: "আয়নিক বন্ধন কীভাবে গঠিত হয়?", options: ["ইলেকট্রন শেয়ারের মাধ্যমে", "ইলেকট্রন আদান-প্রদান (বর্জন ও গ্রহণ)-এর মাধ্যমে", "প্রোটন বিনিময়ের মাধ্যমে", "হাইড্রোজেন বন্ধন দ্বারা"], answer: 1, explanation: "ধাতু ও অধাতুর মধ্যে ইলেকট্রন আদান-প্রদানের মাধ্যমে আয়নিক বন্ধন হয়।" },
+            { q: "কোন্ যৌগে সমযোজী বন্ধন বিদ্যমান?", options: ["\\(NaCl\\)", "\\(MgO\\)", "\\(H_2O\\)", "\\(CaCl_2\\)"], answer: 2, explanation: "পানি (\\(H_2O\\))-তে হাইড্রোজেন ও অক্সিজেন ইলেকট্রন শেয়ার করে সমযোজী বন্ধন গঠন করে।" },
+            { q: "নিচের কোনটিতে অষ্টক নিয়ম লঙ্ঘিত হয়?", options: ["\\(CH_4\\)", "\\(BF_3\\)", "\\(CO_2\\)", "\\(H_2O\\)"], answer: 1, explanation: \\(BF_3\\)-এ বোরনের চারপাশে ৬টি ইলেকট্রন থাকে, যা অষ্টক পূর্ণ করে না।" },
+            { q: "ধাতব বন্ধন সাধারণত কাদের মধ্যে দেখা যায়?", options: ["অধাতু পরমাণুর মধ্যে", "ধাতু পরমাণুসমূহের মধ্যে", "গ্যাসীয় অণুর মধ্যে", "আয়ন ও পানির মধ্যে"], answer: 1, explanation: "ধাতব স্ফটিকে ধাতু পরমাণুগুলোর মধ্যে ধাতব বন্ধন থাকে।" },
+            { q: "পর্যায় সারণির একই গ্রুপের ওপর থেকে নিচে নামলে পারমাণবিক ব্যাসার্ধের কী পরিবর্তন হয়?", options: ["কমে", "বাড়ে", "অপরিবর্তিত থাকে", "প্রথমে বাড়ে পরে কমে"], answer: 1, explanation: "গ্রুপ বরাবর নিচে নামলে নতুন শক্তিস্তর যুক্ত হওয়ায় ব্যাসার্ধ বাড়ে।" },
+            { q: "সোডিয়াম ক্লোরাইড ( \\(NaCl\\) ) লবণে কোন বন্ধন বিদ্যমান?", options: ["সমযোজী", "আয়নিক", "হাইড্রোজেন বন্ধন", "ধাতব বন্ধন"], answer: 1, explanation: "\\(Na^+\\) ও \\(Cl^-\\)-এর মধ্যে স্থির বৈদ্যুতিক আকর্ষণে আয়নিক বন্ধন গঠিত হয়।" },
+            { q: "অক্সিজেন অণুতে ( \\(O_2\\) ) পরমাণুদ্বয়ের মধ্যে কয়টি বন্ধন থাকে?", options: ["একটি একক বন্ধন", "একটি দ্বিবন্ধন", "একটি ত্রিবন্ধন", "কোনো বন্ধন নেই"], answer: 1, explanation: "অক্সিজেন অণুতে দুটি অক্সিজেন পরমাণু দুটি করে ইলেকট্রন শেয়ার করে দ্বিবন্ধন গঠন করে।" },
+            { q: "কোন মৌলটি অর্ধধাতু বা অপধাতু (Metalloid) হিসেবে গণ্য হয়?", options: ["সোডিয়াম", "সিলিকন", "ক্লোরিন", "হিলিয়াম"], answer: 1, explanation: "সিলিকন (Si) একটি বিখ্যাত অপধাতু।" },
+
+            // রসায়ন অধ্যায় ৪: রাসায়নিক বিক্রিয়া (৯১-১০০)
+            { q: "যে রাসায়নিক বিক্রিয়ায় তাপ উৎপন্ন হয় তাকে কী বলে?", options: ["তাপহারী বিক্রিয়া", "তাপউৎপাদী বিক্রিয়া", "প্রশমন বিক্রিয়া", "বোজন বিক্রিয়া"], answer: 1, explanation: "যে বিক্রিয়ায় তাপ নির্গত হয় তাকে তাপউৎপাদী (Exothermic) বিক্রিয়া বলে।" },
+            { q: "চুনাপাথরকে তাপ দিলে ক্যালসিয়াম অক্সাইড ও কার্বন ডাইঅক্সাইড উৎপন্ন হয়— এটি কোন ধরনের বিক্রিয়া?", options: ["সংযোজন বিক্রিয়া", "বিয়োজন বিক্রিয়া", "প্রতিস্থাপন বিক্রিয়া", "দহন বিক্রিয়া"], answer: 1, explanation: "একটি যৌগ ভেঙে একাধিক নতুন পদার্থ উৎপন্ন হওয়ায় এটি বিয়োজন বিক্রিয়া।" },
+            { q: "নিচের কোনটি সংযোজন বিক্রিয়ার উদাহরণ?", options: ["\\(N_2 + 3H_2 \\rightarrow 2NH_3\\)", "\\(CaCO_3 \\rightarrow CaO + CO_2\\)", "\\(Zn + H_2SO_4 \\rightarrow ZnSO_4 + H_2\\)", "\\(NaOH + HCl \\rightarrow NaCl + H_2O\\)"], answer: 0, explanation: "একাধিক পদার্থ যুক্ত হয়ে একটি নতুন পদার্থ তৈরি করায় এটি সংযোজন বিক্রিয়া।" },
+            { q: "অ্যাসিড ও ক্ষারের বিক্রিয়ায় লবণ ও পানি উৎপন্ন হওয়াকে কী বলে?", options: ["দহন বিক্রিয়া", "প্রশমন বিক্রিয়া", "পলিমারকরণ", "প্রতিস্থাপন"], answer: 1, explanation: "অ্যাসিড ও ক্ষারের পারস্পরিক প্রশমন বিক্রিয়ায় লবণ ও পানি উৎপন্ন হয়।" },
+            { q: "রেডক্স (Redox) বিক্রিয়া মূলত কিসের যুগপৎ সংঘটন?", options: ["জারণ ও বিজারণ", "সংযোজন ও বিয়োজন", "তাপউৎপাদী ও তাপহারী", "দ্রবীভবন ও স্ফুটন"], answer: 0, explanation: "যে বিক্রিয়ায় একই সাথে জারণ ও বিজারণ ঘটে তাকে রেডক্স বিক্রিয়া বলে।" },
+            { q: "জারণ প্রক্রিয়ায় কী ঘটে?", options: ["ইলেকট্রন গ্রহণ", "ইলেকট্রন বর্জন", "প্রোটন গ্রহণ", "নিউট্রন বর্জন"], answer: 1, explanation: "জারণ মানে ইলেকট্রন বর্জন এবং বিজারণ মানে ইলেকট্রন গ্রহণ।" },
+            { q: "বিজারণ প্রক্রিয়ায় জারণ সংখ্যা বা আধানের কী ঘটে?", options: ["বৃদ্ধি পায়", "হ্রাস পায়", "অপরিবর্তিত থাকে", "শূন্য হয়"], answer: 1, explanation: "ইলেকট্রন গ্রহণের মাধ্যমে বিজারণ ঘটায় ধনাত্মক আধান বা জারণ সংখ্যা হ্রাস পায়।" },
+            { q: "খাবার লবণের জলীয় দ্রবণে বিদ্যুৎ চালনা করলে ক্লোরিন গ্যাস কোথায় উৎপন্ন হয়?", options: ["ক্যাথোডে", "অ্যানোডে", "পাত্রের তলায়", "কোথাও না"], answer: 1, explanation: "অ্যানোড বা ধনাত্মক তড়িৎদ্বারে ক্লোরিন গ্যাস মুক্ত হয়।" },
+            { q: "সবুজ উদ্ভিদের সালোকসংশ্লেষণ কোন ধরনের রাসায়নিক প্রক্রিয়া?", options: ["তাপহারী বিক্রিয়া", "তাপউৎপাদী বিক্রিয়া", "তড়িৎ বিশ্লেষণ", "শুধুমাত্র ভৌত পরিবর্তন"], answer: 0, explanation: "সূর্যের আলোর শক্তি শোষিত হওয়ায় এটি তাপহারী (Endothermic) প্রক্রিয়া।" },
+            { q: "লোহায় মরিচা ধরার জন্য নিচের কোনটির উপস্থিতি অপরিহার্য?", options: ["অক্সিজেন ও আর্দ্রতা (পানি)", "শুধু নাইট্রোজেন", "কার্বন ডাইঅক্সাইড ও শুষ্ক বায়ু", "হাইড্রোজেন গ্যাস"], answer: 0, explanation: "লোহায় মরিচা ধরতে অক্সিজেন ও জলীয় বাষ্প উভয়েরই প্রয়োজন হয়।" }
+        ];
+
+        let currentQuestions = [];
+        let userAnswers = {};
+        let timerInterval;
+        let timeLeft = 60 * 60; // ৬০ মিনিট
+        let warningCount = 3;
+        let isExamSubmitted = false;
+
+        function shuffleArray(array) {
+            let arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        document.getElementById('reg-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('student-name').value.trim();
+            const roll = document.getElementById('student-roll').value.trim();
+            
+            if (!name) {
+                alert('দয়া করে আপনার নাম লিখুন।');
+                return;
+            }
+
+            window.studentName = name;
+            window.studentRoll = roll ? roll : 'প্রযোজ্য নয়';
+
+            document.getElementById('registration-section').classList.add('hidden');
+            document.getElementById('quiz-section').classList.remove('hidden');
+            document.getElementById('timer-box').classList.remove('hidden');
+
+            initializeQuiz();
+            startTimer();
+            enableSecurityFeatures();
+        });
+
+        function initializeQuiz() {
+            currentQuestions = shuffleArray(allQuestions).map(q => {
+                const optionsWithIndex = q.options.map((opt, idx) => ({ opt, originalIndex: idx }));
+                const shuffledOptions = shuffleArray(optionsWithIndex);
+                const newCorrectIndex = shuffledOptions.findIndex(item => item.originalIndex === q.answer);
+                
+                return {
+                    q: q.q,
+                    options: shuffledOptions.map(item => item.opt),
+                    answer: newCorrectIndex,
+                    explanation: q.explanation
+                };
+            });
+
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            const optionLetters = ['ক', 'খ', 'গ', 'ঘ'];
+
+            currentQuestions.forEach((item, index) => {
+                let optionsHtml = '';
+                item.options.forEach((opt, optIdx) => {
+                    optionsHtml += `
+                        <label class="flex items-center space-x-3 p-3 rounded-xl border border-slate-200 hover:bg-indigo-50/50 cursor-pointer transition">
+                            <input type="radio" name="question-${index}" value="${optIdx}" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-slate-300">
+                            <span class="text-slate-700 font-medium">${optionLetters[optIdx]}. ${opt}</span>
+                        </label>
+                    `;
+                });
+
+                const qCard = document.createElement('div');
+                qCard.className = 'bg-white rounded-2xl shadow-md p-6 border border-slate-100';
+                qCard.innerHTML = `
+                    <p class="font-bold text-slate-800 text-lg mb-4">প্রশ্ন ${index + 1}: ${item.q}</p>
+                    <div class="space-y-2">
+                        ${optionsHtml}
+                    </div>
+                `;
+                container.appendChild(qCard);
+            });
+
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function startTimer() {
+            const timeDisplay = document.getElementById('time-display');
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('সময় শেষ! আপনার পরীক্ষা স্বয়ংক্রিয়ভাবে জমা দেওয়া হলো।');
+                    submitExam();
+                    return;
+                }
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function enableSecurityFeatures() {
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden && !isExamSubmitted) {
+                    warningCount--;
+                    document.getElementById('warning-count').textContent = warningCount;
+                    const banner = document.getElementById('warning-banner');
+                    banner.classList.remove('hidden');
+
+                    if (warningCount <= 0) {
+                        alert('সতর্কতার সীমা অতিক্রম করায় আপনার পরীক্ষা স্বয়ংক্রিয়ভাবে জমা দেওয়া হলো।');
+                        submitExam();
+                    } else {
+                        alert(`সতর্কতা! আপনি ট্যাব পরিবর্তন বা ব্রাউজার মিনিমাইজ করেছেন। আর মাত্র ${warningCount} বার সুযোগ পাবেন।`);
+                    }
+                }
+            });
+
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            document.addEventListener('copy', e => e.preventDefault());
+            document.addEventListener('cut', e => e.preventDefault());
+            document.addEventListener('paste', e => e.preventDefault());
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 'p' || e.key === 's' || e.key === 'a')) {
+                    e.preventDefault();
+                    alert('এই পেজে শর্টকাট বা কপি করা নিষিদ্ধ!');
+                }
+            });
+        }
+
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            if (confirm('আপনি কি নিশ্চিতভাবে পরীক্ষা জমা দিতে চান?')) {
+                submitExam();
+            }
+        });
+
+        function submitExam() {
+            if (isExamSubmitted) return;
+            isExamSubmitted = true;
+            clearInterval(timerInterval);
+
+            let correctCount = 0;
+            let wrongCount = 0;
+            let unattemptedCount = 0;
+            const optionLetters = ['ক', 'খ', 'গ', 'ঘ'];
+
+            currentQuestions.forEach((item, index) => {
+                const selected = document.querySelector(`input[name="question-${index}"]:checked`);
+                if (selected) {
+                    userAnswers[index] = parseInt(selected.value);
+                    if (userAnswers[index] === item.answer) {
+                        correctCount++;
+                    } else {
+                        wrongCount++;
+                    }
+                } else {
+                    userAnswers[index] = null;
+                    unattemptedCount++;
+                }
+            });
+
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('timer-box').classList.add('hidden');
+            document.getElementById('result-section').classList.remove('hidden');
+
+            document.getElementById('result-student-info').innerHTML = `শিক্ষার্থীর নাম: <b>${window.studentName}</b> | রোল/আইডি: <b>${window.studentRoll}</b>`;
+            document.getElementById('res-total').textContent = currentQuestions.length;
+            document.getElementById('res-correct').textContent = correctCount;
+            document.getElementById('res-wrong').textContent = wrongCount;
+            
+            const percentage = ((correctCount / currentQuestions.length) * 100).toFixed(2);
+            document.getElementById('res-score-percent').textContent = percentage + '%';
+
+            const solutionsContainer = document.getElementById('solutions-container');
+            solutionsContainer.innerHTML = '';
+
+            currentQuestions.forEach((item, index) => {
+                const userAns = userAnswers[index];
+                const isCorrect = userAns === item.answer;
+                const isUnanswered = userAns === null;
+
+                let badgeHtml = '';
+                if (isUnanswered) {
+                    badgeHtml = '<span class="bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-1 rounded-full">উত্তর দেননি</span>';
+                } else if (isCorrect) {
+                    badgeHtml = '<span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-1 rounded-full">সঠিক উত্তর ✓</span>';
+                } else {
+                    badgeHtml = '<span class="bg-rose-100 text-rose-800 text-xs font-semibold px-2.5 py-1 rounded-full">ভুল উত্তর ✗</span>';
+                }
+
+                let optionsSolutionHtml = '';
+                item.options.forEach((opt, optIdx) => {
+                    let styleClass = 'border-slate-200 text-slate-700';
+                    if (optIdx === item.answer) {
+                        styleClass = 'border-emerald-500 bg-emerald-50 text-emerald-800 font-bold';
+                    } else if (optIdx === userAns && !isCorrect) {
+                        styleClass = 'border-rose-500 bg-rose-50 text-rose-800 line-through';
+                    }
+                    optionsSolutionHtml += `
+                        <div class="p-2.5 rounded-lg border ${styleClass} text-sm">
+                            ${optionLetters[optIdx]}. ${opt}
+                        </div>
+                    `;
+                });
+
+                const solCard = document.createElement('div');
+                solCard.className = 'bg-slate-50 rounded-xl p-5 border border-slate-200 space-y-3';
+                solCard.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <h4 class="font-bold text-slate-800">প্রশ্ন ${index + 1}: ${item.q}</h4>
+                        <div>${badgeHtml}</div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+                        ${optionsSolutionHtml}
+                    </div>
+                    <div class="bg-indigo-50/70 border-l-4 border-indigo-500 p-3 rounded-r-lg text-sm text-indigo-900 mt-3">
+                        <p class="font-semibold mb-1">সঠিক উত্তর ও ব্যাখ্যা:</p>
+                        <p>${item.explanation}</p>
+                    </div>
+                `;
+                solutionsContainer.appendChild(solCard);
+            });
+
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
