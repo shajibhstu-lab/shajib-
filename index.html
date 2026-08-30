@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>এসএসসি বিজ্ঞান (পদার্থ ও রসায়ন) অনলাইন পরীক্ষা</title>
+    <title>এসএসসি বিজ্ঞান ও গণিত যৌথ অনলাইন পরীক্ষা</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         window.MathJax = {
@@ -27,7 +27,7 @@
 
     <header class="bg-indigo-700 text-white shadow-md py-4 px-6">
         <div class="max-w-5xl mx-auto flex justify-between items-center">
-            <h1 class="text-lg md:text-xl font-bold">এসএসসি বিজ্ঞান: পদার্থ (১-৩) ও রসায়ন (১-৪) পরীক্ষা</h1>
+            <h1 class="text-lg md:text-xl font-bold">এসএসসি মডেল টেস্ট: পদার্থ (১-৩), রসায়ন (১-৪) ও গণিত (১-২)</h1>
             <div id="timer-box" class="hidden bg-indigo-800 px-4 py-2 rounded-lg font-semibold text-amber-300 border border-indigo-600 shadow-inner">
                 সময় বাকী: <span id="time-display">60:00</span>
             </div>
@@ -38,9 +38,9 @@
         <!-- রেজিস্ট্রেশন সেকশন -->
         <div id="registration-section" class="bg-white rounded-2xl shadow-xl p-6 md:p-10 border border-indigo-100">
             <div class="text-center mb-8">
-                <span class="bg-indigo-100 text-indigo-700 text-sm font-semibold px-3 py-1 rounded-full uppercase tracking-wider">বিজ্ঞান যৌথ মূল্যায়ন</span>
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mt-3">পদার্থবিজ্ঞান (১-৩) ও রসায়ন (১-৪)</h2>
-                <p class="text-slate-600 mt-2">পরীক্ষায় অংশগ্রহণের জন্য আপনার নাম ও রোল নম্বর এন্ট্রি করুন। মোট প্রশ্ন: ১০০টি | সময়: ৬০ মিনিট।</p>
+                <span class="bg-indigo-100 text-indigo-700 text-sm font-semibold px-3 py-1 rounded-full uppercase tracking-wider">যৌথ মূল্যায়ন পরীক্ষা</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mt-3">পদার্থ, রসায়ন ও গণিত</h2>
+                <p class="text-slate-600 mt-2">পরীক্ষায় অংশগ্রহণের জন্য আপনার নাম ও রোল নম্বর এন্ট্রি করুন। মোট প্রশ্ন: ৬০টি | সময়: ৬০ মিনিট।</p>
             </div>
             <form id="reg-form" class="space-y-6 max-w-lg mx-auto">
                 <div>
@@ -88,7 +88,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
                     <p class="text-sm text-slate-500">মোট প্রশ্ন</p>
-                    <p id="res-total" class="text-2xl font-bold text-slate-800">১০০</p>
+                    <p id="res-total" class="text-2xl font-bold text-slate-800">৬০</p>
                 </div>
                 <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-200">
                     <p class="text-sm text-emerald-600">সঠিক উত্তর</p>
@@ -104,6 +104,314 @@
                 </div>
             </div>
 
+            <div class="space-y-6">
+                <h3 class="text-xl font-bold text-slate-800 border-b pb-2">সঠিক উত্তর ও ব্যাখ্যাসহ সলিউশন শিট</h3>
+                <div id="solutions-container" class="space-y-6"></div>
+            </div>
+
+            <div class="text-center pt-4">
+                <button onclick="location.reload();" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-xl shadow transition">
+                    পুনরায় পরীক্ষা দিন
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-slate-800 text-slate-400 py-6 text-center text-sm border-t border-slate-700">
+        <p>এসএসসি বিজ্ঞান ও গণিত কুইজ পোর্টাল | পদার্থ (১-৩), রসায়ন (১-৪) ও গণিত (১-২)</p>
+    </footer>
+
+    <script>
+        const allQuestions = [
+            // --- পদার্থবিজ্ঞান (অধ্যায় ১ থেকে ৩) ---
+            { q: "এসআই (SI) এককের মূল একক কয়টি?", options: ["৫টি", "৬টি", "৭টি", "৯টি"], answer: 2, explanation: "এসআই পদ্ধতিতে মূল একক ৭টি।" },
+            { q: "নিচের কোনটি মৌলিক রাশি?", options: ["বেগ", "তড়িৎ প্রবাহ", "ক্ষেত্রফল", "ঘনত্ব"], answer: 1, explanation: "তড়িৎ প্রবাহ একটি মৌলিক রাশি।" },
+            { q: "ভার্নিয়ার ধ্রুবক (VC) নির্ণয়ের সূত্র কোনটি?", options: ["\\(V = S - N\\)", "\\(V = 1 - \\frac{S}{N}\\)", "\\(V = \\frac{S}{N}\\)", "\\(V = S \\times N\\)"], answer: 2, explanation: "ভার্নিয়ার ধ্রুবক \\(V = \\frac{S}{N}\\) (যেখানে S হলো প্রধান স্কেলের ক্ষুদ্রতম এক ভাগের দৈর্ঘ্য এবং N হলো ভার্নিয়ার ভাগের সংখ্যা)।" },
+            { q: "স্ক্রু-গজের বৃত্তাকার স্কেলের ভাগসংখ্যা সাধারণত কত হয়?", options: ["১০টি", "৫০টি", "১০০টি", "৫০০টি"], answer: 2, explanation: "স্ক্রু-গজের বৃত্তাকার স্কেলের ভাগসংখ্যা সাধারণত ১০০টি হয়।" },
+            { q: "সুষম বেগে চলমান বস্তুর ত্বরণ কেমন হয়?", options: ["সর্বোচ্চ", "শূন্য", "ঋণাত্মক", "অসীম"], answer: 1, explanation: "সমবেগে বেগের পরিবর্তন না হওয়ায় ত্বরণ শূন্য হয়।" },
+            { q: "অভিকর্ষজ ত্বরণ \\(g\\)-এর আদর্শ মান কত?", options: ["\\(9.8 \\text{ ms}^{-2}\\)", "\\(9.81 \\text{ ms}^{-2}\\)", "\\(9.78 \\text{ ms}^{-2}\\)", "\\(10 \\text{ ms}^{-2}\\)"], answer: 0, explanation: "অভিকর্ষজ ত্বরণের আদর্শ মান \\(9.8 \\text{ ms}^{-2}\\)।" },
+            { q: "বেগ বৃদ্ধির হারকে কী বলে?", options: ["মন্দন", "ত্বরণ", "দ্রুতি", "সরণ"], answer: 1, explanation: "বেগ বৃদ্ধির হারকে ত্বরণ এবং হ্রাসের হারকে মন্দন বলে।" },
+            { q: "নিউটনের গতির প্রথম সূত্র থেকে কোনটির ধারণা পাওয়া যায়?", options: ["বলের পরিমাপ", "জড়তা ও বলের সংজ্ঞা", "ভরবেগ", "ক্রিয়া ও প্রতিক্রিয়া"], answer: 1, explanation: "প্রথম সূত্র থেকে জড়তা এবং বলের গুণগত ধারণা পাওয়া যায়।" },
+            { q: "বলের এসআই একক কী?", options: ["জুল", "ওয়াট", "নিউটন", "পাসকাল"], answer: 2, explanation: "বলের একক নিউটন (N)।" },
+            { q: " \\(5 \\text{ kg}\\) ভরের একটি বস্তুর ওপর \\(20 \\text{ N}\\) বল প্রয়োগ করলে ত্বরণ কত হবে?", options: ["\\(4 \\text{ ms}^{-2}\\)", "\\(100 \\text{ ms}^{-2}\\)", "\\(0.25 \\text{ ms}^{-2}\\)", "\\(10 \\text{ ms}^{-2}\\)"], answer: 0, explanation: "\\(a = \\frac{F}{m} = \\frac{20}{5} = 4 \\text{ ms}^{-2}\\)।" },
+            { q: "ঘর্ষণ বল সবসময় গতির কোন দিকে কাজ করে?", options: ["গতির দিকে", "গতির বিপরীত দিকে", "লম্বভাবে", "কোনোটিই নয়"], answer: 1, explanation: "ঘর্ষণ বল সবসময় গতির বা গতির চেষ্টার বিপরীতে কাজ করে।" },
+            { q: "জড়তা প্রধানত কয় প্রকার?", options: ["২ প্রকার", "৩ প্রকার", "৪ প্রকার", "৫ প্রকার"], answer: 0, explanation: "জড়তা দুই প্রকার: স্থিতি জড়তা ও গতি জড়তা।" },
+            { q: "সরণ-সময় লেখচিত্রের ঢাল কী নির্দেশ করে?", options: ["ত্বরণ", "বেগ", "বল", "কাজ"], answer: 1, explanation: "সরণ-সময় লেখচিত্রের ঢাল বা নতি বেগ নির্দেশ করে।" },
+            { q: "নিচের কোনটি ভেক্টর রাশি?", options: ["দ্রুতি", "দূরত্ব", "সরণ", "কাজ"], answer: 2, explanation: "সরণ একটি ভেক্টর রাশি।" },
+            { q: "বলের মাত্রা সমীকরণ কোনটি?", options: ["\\(MLT^{-1}\\)", "\\(MLT^{-2}\\)", "\\(ML^2T^{-2}\\)", "\\(ML^{-1}T^{-2}\\)"], answer: 1, explanation: "বল \\(F = ma = M \\cdot LT^{-2} = MLT^{-2}\\)।" },
+            { q: "রকেটের ত্বরণ ও গতি কোন সূত্রের ওপর ভিত্তি করে কাজ করে?", options: ["নিউটনের প্রথম সূত্র", "নিউটনের দ্বিতীয় সূত্র", "নিউটনের তৃতীয় সূত্র ও ভরবেগ সংরক্ষণ", "শক্তির সংরক্ষণশীলতা"], answer: 2, explanation: "রকেট কার্যপদ্ধতি ভরবেগ সংরক্ষণ ও নিউটনের ৩য় সূত্রের ওপর প্রতিষ্ঠিত।" },
+            { q: "কোনো পরিমাপে ত্রুটির মূল কারণ কোনটি?", options: ["যন্ত্রের ত্রুটি", "পরীক্ষকের অসতর্কতা", "পরীক্ষার পরিবেশ", "উপরের সবগুলো"], answer: 3, explanation: "যন্ত্রের ত্রুটি, পরীক্ষকের অসতর্কতা ও পরিবেশের প্রভাবে পরিমাপে ত্রুটি ঘটে।" },
+            { q: "স্থির অবস্থা থেকে যাত্রা শুরু করে \\(t\\) সময়ে \\(v\\) বেগ অর্জন করলে ত্বরণ \\(a\\) কত?", options: ["\\(vt\\)", "\\(\\frac{v}{t}\\)", "\\(\\frac{t}{v}\\)", "\\(\\frac{1}{2}at^2\\)"], answer: 1, explanation: "ত্বরণ \\(a = \\frac{v}{t}\\)।" },
+            { q: "ভরবেগ সংরক্ষণের সূত্র অনুযায়ী বাহ্যিক কোনো বল প্রযুক্ত না হলে মোট ভরবেগ—", options: ["পরিবর্তিত হয়", "সর্বদা অপরিবর্তিত বা সংরক্ষিত থাকে", "শূন্য হয়", "দ্বিগুণ হয়"], answer: 1, explanation: "বাহ্যিক বল না থাকলে সংঘর্ষের পূর্বে ও পরের মোট ভরবেগ সমান থাকে।" },
+            { q: "সাধারণ স্কেলের সাহায্যে ক্ষুদ্রতম কত দৈর্ঘ্য নিখুঁতভাবে মাপা যায়?", options: ["\\(0.1 \\text{ mm}\\)", "\\(1 \\text{ mm}\\)", "\\(0.01 \\text{ mm}\\)", "\\(1 \\text{ cm}\\)"], answer: 1, explanation: "সাধারণ স্কেল দিয়ে ন্যূনতম ১ মিলিমিটার বা ০.১ সেন্টিমিটার মাপা যায়।" },
+
+            // --- রসায়ন (অধ্যায় ১ থেকে ৪) ---
+            { q: "রসায়ন বিজ্ঞানের মূল আলোচ্য বিষয় কোনটি?", options: ["মহাকাশ ও নক্ষত্র", "পদার্থের গঠন, ধর্ম ও পরিবর্তন", "জীবদেহের রোগ ও চিকিৎসা", "বিদ্যুৎ ও চৌম্বক ক্ষেত্র"], answer: 1, explanation: "পদার্থের গঠন, বৈশিষ্ট্য এবং রাসায়নিক পরিবর্তন হলো রসায়নের মূল বিষয়।" },
+            { q: "জাবির ইবনে হাইয়ানকে কিসের জনক বলা হয়?", options: ["পদার্থবিজ্ঞানের", "রসায়নের", "জীববিজ্ঞানের", "জ্যোতির্বিজ্ঞানের"], answer: 1, explanation: "জাবির ইবনে হাইয়ানকে আরবীয় রসায়নের জনক বলা হয়।" },
+            { q: "কোনটি রাসায়নিক পরিবর্তনের উদাহরণ?", options: ["বরফ গলন", "লোহায় মরিচা ধরা", "পানির বাষ্পীভবন", "চিনি পানিতে দ্রবীভূত হওয়া"], answer: 1, explanation: "লোহায় মরিচা ধরা একটি নতুন পদার্থ তৈরির রাসায়নিক পরিবর্তন।" },
+            { q: "পরমাণুর নিউক্লিয়াসে কী কী কণা থাকে?", options: ["প্রোটন ও ইলেকট্রন", "প্রোটন ও নিউট্রন", "ইলেকট্রন ও নিউট্রন", "শুধু প্রোটন"], answer: 1, explanation: "নিউক্লিয়াসে প্রোটন এবং নিউট্রন অবস্থান করে।" },
+            { q: " \\(^{12}_{6}\\text{C}\\) পরমাণুর নিউট্রন সংখ্যা কত?", options: ["৬", "১২", "১৮", "০"], answer: 0, explanation: "নিউট্রন সংখ্যা = ভরসংখ্যা - প্রোটন সংখ্যা = 12 - 6 = 6।" },
+            { q: "কোন শক্তিস্তরে সর্বোচ্চ ইলেকট্রন ধারণক্ষমতা নির্ণয়ের সূত্র কোনটি?", options: ["\\(n^2\\)", "\\(2n^2\\)", "\\(2n\\)", "\\(n(n+1)\\)"], answer: 1, explanation: "সর্বোচ্চ ইলেকট্রন ধারণক্ষমতা \\(2n^2\\)।" },
+            { q: " \\(M\\) শেল বা শক্তিস্তরে (\\(n=3\\)) সর্বোচ্চ কয়টি ইলেকট্রন থাকতে পারে?", options: ["৮টি", "১৮টি", "৩২টি", "৩২টি"], answer: 1, explanation: "\\(2 \\times 3^2 = 2 \\times 9 = 18\\)টি।" },
+            { q: "আধুনিক পর্যায় সারণির ভিত্তি কী?", options: ["পরমাণুর ভরসংখ্যা", "পারমাণবিক সংখ্যা", "ইলেকট্রন বিন্যাস", "যোজনী"], answer: 1, explanation: "মোজলের আধুনিক পর্যায় সূত্র পারমাণবিক সংখ্যার ওপর প্রতিষ্ঠিত।" },
+            { q: "পর্যায় সারণিতে মোট পর্যায় কয়টি?", options: ["৭টি", "১৮টি", "৮টি", "১৬টি"], answer: 0, explanation: "পর্যায় সারণিতে অনুভূমিক সারি বা পর্যায় ৭টি।" },
+            { q: "গ্রুপ ১-এর মৌলগুলোকে কী বলা হয়?", options: ["হ্যালোজেন", "ক্ষার ধাতু", "মৃৎক্ষার ধাতু", "নিষ্ক্রিয় গ্যাস"], answer: 1, explanation: "গ্রুপ ১-এর মৌলগুলো ক্ষার ধাতু নামে পরিচিত।" },
+            { q: "সোডিয়াম ( \\(Na\\) )-এর ইলেকট্রন বিন্যাস কোনটি?", options: ["\\(2, 8, 1\\)", "\\(2, 7, 2\\)", "\\(2, 8, 2\\)", "\\(2, 6\\)"], answer: 0, explanation: "সোডিয়ামের পারমাণবিক সংখ্যা ১১, বিন্যাস \\(2, 8, 1\\)।" },
+            { q: "আয়নিক বন্ধন কীভাবে গঠিত হয়?", options: ["ইলেকট্রন শেয়ারের মাধ্যমে", "ইলেকট্রন আদান-প্রদান (বর্জন ও গ্রহণ)-এর মাধ্যমে", "প্রোটন বিনিময়ের মাধ্যমে", "হাইড্রোজেন বন্ধন দ্বারা"], answer: 1, explanation: "ধাতু ও অধাতুর মধ্যে ইলেকট্রন আদান-প্রদানের মাধ্যমে আয়নিক বন্ধন হয়।" },
+            { q: "কোন্ যৌগে সমযোজী বন্ধন বিদ্যমান?", options: ["\\(NaCl\\)", "\\(MgO\\)", "\\(H_2O\\)", "\\(CaCl_2\\)"], answer: 2, explanation: "পানি (\\(H_2O\\))-তে হাইড্রোজেন ও অক্সিজেন ইলেকট্রন শেয়ার করে সমযোজী বন্ধন গঠন করে।" },
+            { q: "যে রাসায়নিক বিক্রিয়ায় তাপ উৎপন্ন হয় তাকে কী বলে?", options: ["তাপহারী বিক্রিয়া", "তাপউৎপাদী বিক্রিয়া", "প্রশমন বিক্রিয়া", "বোজন বিক্রিয়া"], answer: 1, explanation: "যে বিক্রিয়ায় তাপ নির্গত হয় তাকে তাপউৎপাদী বিক্রিয়া বলে।" },
+            { q: "চুনাপাথরকে তাপ দিলে ক্যালসিয়াম অক্সাইড ও কার্বন ডাইঅক্সাইড উৎপন্ন হয়— এটি কোন ধরনের বিক্রিয়া?", options: ["সংযোজন বিক্রিয়া", "বিয়োজন বিক্রিয়া", "প্রতিস্থাপন বিক্রিয়া", "দহন বিক্রিয়া"], answer: 1, explanation: "একটি যৌগ ভেঙে একাধিক নতুন পদার্থ উৎপন্ন হওয়ায় এটি বিয়োজন বিক্রিয়া।" },
+            { q: "অ্যাসিড ও ক্ষারের বিক্রিয়ায় লবণ ও পানি উৎপন্ন হওয়াকে কী বলে?", options: ["দহন বিক্রিয়া", "প্রশমন বিক্রিয়া", "পলিমারকরণ", "প্রতিস্থাপন"], answer: 1, explanation: "অ্যাসিড ও ক্ষারের পারস্পরিক প্রশমন বিক্রিয়ায় লবণ ও পানি উৎপন্ন হয়।" },
+            { q: "রেডক্স (Redox) বিক্রিয়া মূলত কিসের যুগপৎ সংঘটন?", options: ["জারণ ও বিজারণ", "সংযোজন ও বিয়োজন", "তাপউৎপাদী ও তাপহারী", "দ্রবীভবন ও স্ফুটন"], answer: 0, explanation: "যে বিক্রিয়ায় একই সাথে জারণ ও বিজারণ ঘটে তাকে রেডক্স বিক্রিয়া বলে।" },
+            { q: "জারণ প্রক্রিয়ায় কী ঘটে?", options: ["ইলেকট্রন গ্রহণ", "ইলেকট্রন বর্জন", "প্রোটন গ্রহণ", "নিউট্রন বর্জন"], answer: 1, explanation: "জারণ মানে ইলেকট্রন বর্জন এবং বিজারণ মানে ইলেকট্রন গ্রহণ।" },
+            { q: "লোহায় মরিচা ধরার জন্য নিচের কোনটির উপস্থিতি অপরিহার্য?", options: ["অক্সিজেন ও আর্দ্রতা (পানি)", "শুধু নাইট্রোজেন", "কার্বন ডাইঅক্সাইড ও শুষ্ক বায়ু", "হাইড্রোজেন গ্যাস"], answer: 0, explanation: "লোহায় মরিচা ধরতে অক্সিজেন ও জলীয় বাষ্প উভয়েরই প্রয়োজন হয়।" },
+            { q: "রবার্ট বয়েলের বিখ্যাত গ্রন্থটির নাম কী?", options: ["The Sceptical Chymist", "Al-Kimia", "Elements", "Principia"], answer: 0, explanation: "রবার্ট বয়েল 'The Sceptical Chymist' গ্রন্থে মৌলিক পদার্থের আধুনিক সংজ্ঞা দেন।" },
+
+            // --- গণিত (অধ্যায় ১ ও ২) ---
+            { q: "সকল মূলদ ও অমূলদ সংখ্যাকে একত্রে কী সংখ্যা বলে?", options: ["স্বাভাবিক সংখ্যা", "বাস্তব সংখ্যা", "পূর্ণ সংখ্যা", "মূলদ সংখ্যা"], answer: 1, explanation: "সকল মূলদ এবং অমূলদ সংখ্যাকে বাস্তব সংখ্যা (Real Numbers) বলা হয়।" },
+            { q: "নিচের কোনটি মূলদ সংখ্যা?", options: ["\\(\\sqrt{2}\\)", "\\(\\pi\\)", "\\(\\sqrt{9}\\)", "\\(e\\)"], answer: 2, explanation: "\\(\\sqrt{9} = 3\\), যা একটি মূলদ সংখ্যা।" },
+            { q: " \\(\\frac{p}{q}\\) আকারে প্রকাশ করা যায় না কোনগুলোকে?", options: ["মূলদ সংখ্যা", "অমূলদ সংখ্যা", "পূর্ণসংখ্যা", "ভগ্নাংশ"], answer: 1, explanation: "অমূলদ সংখ্যাকে দুটি পূর্ণসংখ্যার অনুপাত বা ভগ্নাংশ আকারে প্রকাশ করা যায় না।" },
+            { q: " \\(0\\) (শূন্য) কোন ধরনের সংখ্যা?", options: ["শুধুমাত্র ধনাত্মক", "শুধুমাত্র ঋণাত্মক", "পূর্ণ সংখ্যা ও মূলদ সংখ্যা", "অমূলদ সংখ্যা"], answer: 2, explanation: "শূন্য একটি পূর্ণসংখ্যা এবং মূলদ সংখ্যা।" },
+            { q: "সেট প্রকাশের পদ্ধতি কয়টি?", options: ["১টি", "২টি", "৩টি", "৪টি"], answer: 1, explanation: "সেট প্রকাশের পদ্ধতি দুটি: তালিকা পদ্ধতি এবং সেট গঠন পদ্ধতি।" },
+            { q: "ফাঁকা সেটের প্রতীক কোনটি?", options: ["\\(\\emptyset\\)", "\\(\\in\\)", "\\(\\subset\\)", "\\(\\cup\\)"], answer: 0, explanation: "ফাঁকা সেটকে \\(\\emptyset\\) বা \\(\\{\\)\\(\\{\\)\\) দ্বারা প্রকাশ করা হয়।" },
+            { q: "যদি \\(A = \\{1, 2\\}\\) এবং \\(B = \\{2, 3\\}\\) হয়, তবে \\(A \\cap B\\) কত?", options: ["\\(\\{1, 2, 3\\}\\)", "\\(\\{2\\}\\)", "\\(\\{1, 3\\}\\)", "\\(\\{\\}\\)"], answer: 1, explanation: "উভয় সেটের কমন উপাদান নিয়ে গঠিত সেট \\(\\{2\\}\\)।" },
+            { q: "যদি \\(P = \\{a, b\\}\\) হয়, তবে \\(P\\)-এর উপসেট কয়টি হবে?", options: ["২টি", "৪টি", "৬টি", "৮টি"], answer: 1, explanation: "উপসেট সংখ্যা \\(2^n = 2^2 = 4\\)টি।" },
+            { q: "সার्वিক সেটকে সাধারণত কোন অক্ষর দ্বারা প্রকাশ করা হয়?", options: ["\\(U\\)", "\\(S\\)", "\\(N\\)", "\\(Z\\)"], answer: 0, explanation: "সার्वিক সেটকে সাধারণত Universal Set বা \\(U\\) দ্বারা প্রকাশ করা হয়।" },
+            { q: " \\(A \\cup B\\) দ্বারা কী বোঝানো হয়?", options: ["সংযোগ সেট", "ছেদ সেট", "পূরক সেট", "অন্তর সেট"], answer: 0, explanation: " \\(A \\cup B\\) হলো সেট দুটির সংযোগ বা ইউনিয়ন সেট।" },
+            { q: "যদি \\(A \\subseteq B\\) হয়, তবে \\(A \\setminus B\\) কত হবে?", options: ["\\(A\\)", "\\(B\\)", "ফাঁকা সেট \\((\\emptyset)\\)", "\\(U\\)"], answer: 2, explanation: " \\(A\\)-এর সব উপাদান \\(B\\)-তে থাকায় বাদ দিলে ফাঁকা সেট থাকে।" },
+            { q: "বাস্তব সংখ্যার ক্ষেত্রে ক্রমবিনিময় সূত্র কোনটি?", options: ["\\(a+b = b+a\\)", "\\(a(b+c) = ab+ac\\)", "\\(a+(b+c) = (a+b)+c\\)", "\\(a \\cdot \\frac{1}{a} = 1\\)"], answer: 0, explanation: "যোগ বা গুণের ক্ষেত্রে স্থান পরিবর্তনের সূত্রটি ক্রমবিনিময় সূত্র।" },
+            { q: "সেটের সংযোগ প্রক্রিয়ার প্রতীক কোনটি?", options: ["\\(\\cap\\)", "\\(\\cup\\)", "\\(\\setminus\\)", "\\(\\subseteq\\)"], answer: 1, explanation: "সংযোগের প্রতীক হলো \\(\\cup\\)।" },
+            { q: "ন্যাচারাল বা স্বাভাবিক সংখ্যার সেটকে সাধারণত কী দ্বারা প্রকাশ করা হয়?", options: ["\\(N\\)", "\\(Z\\)", "\\(Q\\)", "\\(R\\)"], answer: 0, explanation: "স্বাভাবিক সংখ্যার সেট \\(N = \\{1, 2, 3, ...\\}\\)।" },
+            { q: " \\(0.3^•\\) (পৌনিক) সংখ্যাটির সাধারণ ভগ্নাংশ রূপ কোনটি?", options: ["\\(\\frac{3}{10}\\)", "\\(\\frac{1}{3}\\)", "\\(\\frac{3}{99}\\)", "\\(\\frac{30}{100}\\)"], answer: 1, explanation: "\\(0.\\dot{3} = \\frac{3}{9} = \\frac{1}{3}\\)।" },
+            { q: "যদি কোনো সেটের কোনো উপাদান না থাকে, তবে তাকে কী বলে?", options: ["সসীম সেট", "অসীম সেট", "ফাঁকা সেট", "উপসেট"], answer: 2, explanation: "উপাদানহীন সেটকে ফাঁকা সেট বলে।" },
+            { q: "সংযোগ সেটের ইংরেজি নাম কী?", options: ["Intersection", "Union", "Complement", "Difference"], answer: 1, explanation: "সংযোগ সেটকে Union বলা হয়।" },
+            { q: "নিচের কোনটি অমূলদ সংখ্যা?", options: ["\\(\\frac{22}{7}\\)", "\\(\\sqrt{16}\\)", "\\(\\sqrt{5}\\)", "\\(3.5\\)"], answer: 2, explanation: "\\(\\sqrt{5}\\)-এর মান পূর্ণ বর্গ নয় এবং এর দশমিক রূপ অসীম ও অনাবৃত্ত।" },
+            { q: "যদি \\(A = \\{1, 2, 3\\}\\) এবং \\(B = \\{3, 4\\}\\) হয়, তবে \\(A \\setminus B\\) কত?", options: ["\\(\\{1, 2\\}\\)", "\\(\\{3\\}\\)", "\\(\\{4\\}\\)", "\\(\\{1, 2, 4\\}\\)"], answer: 0, explanation: " \\(A\\) থেকে \\(B\\)-এর উপাদান বাদ দিলে \\(\\{1, 2\\}\\) থাকে।" },
+            { q: "যেকোনো দুটি বাস্তব সংখ্যা \\(a\\) ও \\(b\\)-এর জন্য নিচের কোনটি সর্বদা সত্য?", options: ["\\(a > b\\)", "\\(a = b\\)", "\\(a < b\\) অথবা \\(a = b\\) অথবা \\(a > b\\)", "কোনোটিই নয়"], answer: 2, explanation: "বাস্তব সংখ্যার ট্রাইটোমি বা ত্রয়ী বিধি অনুসারে এদের যেকোনো একটি সম্পর্ক সত্য হবে।" }
+        ];
+
+        let currentQuestions = [];
+        let userAnswers = {};
+        let timerInterval;
+        let timeLeft = 60 * 60; 
+        let warningCount = 3;
+        let isExamSubmitted = false;
+
+        function shuffleArray(array) {
+            let arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        document.getElementById('reg-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('student-name').value.trim();
+            const roll = document.getElementById('student-roll').value.trim();
+            if (!name) {
+                alert('দয়া করে আপনার নাম লিখুন।');
+                return;
+            }
+            window.studentName = name;
+            window.studentRoll = roll ? roll : 'প্রযোজ্য নয়';
+            
+            document.getElementById('registration-section').classList.add('hidden');
+            document.getElementById('quiz-section').classList.remove('hidden');
+            document.getElementById('timer-box').classList.remove('hidden');
+            
+            initializeQuiz();
+            startTimer();
+            enableSecurityFeatures();
+        });
+
+        function initializeQuiz() {
+            currentQuestions = shuffleArray(allQuestions).map(q => {
+                const optionsWithIndex = q.options.map((opt, idx) => ({ opt, originalIndex: idx }));
+                const shuffledOptions = shuffleArray(optionsWithIndex);
+                const newCorrectIndex = shuffledOptions.findIndex(item => item.originalIndex === q.answer);
+                return {
+                    q: q.q,
+                    options: shuffledOptions.map(item => item.opt),
+                    answer: newCorrectIndex,
+                    explanation: q.explanation
+                };
+            });
+
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            const optionLetters = ['ক', 'খ', 'গ', 'ঘ'];
+
+            currentQuestions.forEach((item, index) => {
+                let optionsHtml = '';
+                item.options.forEach((opt, optIdx) => {
+                    optionsHtml += `
+                        <label class="flex items-center space-x-3 p-3 rounded-xl border border-slate-200 hover:bg-indigo-50/50 cursor-pointer transition">
+                            <input type="radio" name="question-${index}" value="${optIdx}" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-slate-300">
+                            <span class="text-slate-700 font-medium">${optionLetters[optIdx]}. ${opt}</span>
+                        </label>
+                    `;
+                });
+
+                const qCard = document.createElement('div');
+                qCard.className = 'bg-white rounded-2xl shadow-md p-6 border border-slate-100';
+                qCard.innerHTML = `
+                    <p class="font-bold text-slate-800 text-lg mb-4">প্রশ্ন ${index + 1}: ${item.q}</p>
+                    <div class="space-y-2">
+                        ${optionsHtml}
+                    </div>
+                `;
+                container.appendChild(qCard);
+            });
+
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function startTimer() {
+            const timeDisplay = document.getElementById('time-display');
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('সময় শেষ! আপনার পরীক্ষা স্বয়ংক্রিয়ভাবে জমা দেওয়া হলো।');
+                    submitExam();
+                    return;
+                }
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function enableSecurityFeatures() {
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden && !isExamSubmitted) {
+                    warningCount--;
+                    document.getElementById('warning-count').textContent = warningCount;
+                    const banner = document.getElementById('warning-banner');
+                    banner.classList.remove('hidden');
+                    if (warningCount <= 0) {
+                        alert('সতর্কতার সীমা অতিক্রম করায় আপনার পরীক্ষা স্বয়ংক্রিয়ভাবে জমা দেওয়া হলো।');
+                        submitExam();
+                    } else {
+                        alert(`সতর্কতা! আপনি ট্যাব পরিবর্তন বা ব্রাউজার মিনিমাইজ করেছেন। আর মাত্র ${warningCount} বার সুযোগ পাবেন।`);
+                    }
+                }
+            });
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            document.addEventListener('copy', e => e.preventDefault());
+            document.addEventListener('cut', e => e.preventDefault());
+            document.addEventListener('paste', e => e.preventDefault());
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 'p' || e.key === 's' || e.key === 'a')) {
+                    e.preventDefault();
+                }
+            });
+        }
+
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            if (confirm('আপনি কি নিশ্চিতভাবে পরীক্ষা জমা দিতে চান?')) {
+                submitExam();
+            }
+        });
+
+        function submitExam() {
+            if (isExamSubmitted) return;
+            isExamSubmitted = true;
+            clearInterval(timerInterval);
+
+            let correctCount = 0;
+            let wrongCount = 0;
+            let unattemptedCount = 0;
+            const optionLetters = ['ক', 'খ', 'গ', 'ঘ'];
+
+            currentQuestions.forEach((item, index) => {
+                const selected = document.querySelector(`input[name="question-${index}"]:checked`);
+                if (selected) {
+                    userAnswers[index] = parseInt(selected.value);
+                    if (userAnswers[index] === item.answer) {
+                        correctCount++;
+                    } else {
+                        wrongCount++;
+                    }
+                } else {
+                    userAnswers[index] = null;
+                    unattemptedCount++;
+                }
+            });
+
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('timer-box').classList.add('hidden');
+            document.getElementById('result-section').classList.remove('hidden');
+
+            document.getElementById('result-student-info').innerHTML = `শিক্ষার্থীর নাম: <b>${window.studentName}</b> | রোল/আইডি: <b>${window.studentRoll}</b>`;
+            document.getElementById('res-total').textContent = currentQuestions.length;
+            document.getElementById('res-correct').textContent = correctCount;
+            document.getElementById('res-wrong').textContent = wrongCount;
+            const percentage = ((correctCount / currentQuestions.length) * 100).toFixed(2);
+            document.getElementById('res-score-percent').textContent = percentage + '%';
+
+            const solutionsContainer = document.getElementById('solutions-container');
+            solutionsContainer.innerHTML = '';
+
+            currentQuestions.forEach((item, index) => {
+                const userAns = userAnswers[index];
+                const isCorrect = userAns === item.answer;
+                const isUnanswered = userAns === null;
+
+                let badgeHtml = '';
+                if (isUnanswered) {
+                    badgeHtml = '<span class="bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-1 rounded-full">উত্তর দেননি</span>';
+                } else if (isCorrect) {
+                    badgeHtml = '<span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-1 rounded-full">সঠিক উত্তর ✓</span>';
+                } else {
+                    badgeHtml = '<span class="bg-rose-100 text-rose-800 text-xs font-semibold px-2.5 py-1 rounded-full">ভুল উত্তর ✗</span>';
+                }
+
+                let optionsSolutionHtml = '';
+                item.options.forEach((opt, optIdx) => {
+                    let styleClass = 'border-slate-200 text-slate-700';
+                    if (optIdx === item.answer) {
+                        styleClass = 'border-emerald-500 bg-emerald-50 text-emerald-800 font-bold';
+                    } else if (optIdx === userAns && !isCorrect) {
+                        styleClass = 'border-rose-500 bg-rose-50 text-rose-800 line-through';
+                    }
+                    optionsSolutionHtml += `
+                        <div class="p-2.5 rounded-lg border ${styleClass} text-sm">
+                            ${optionLetters[optIdx]}. ${opt}
+                        </div>
+                    `;
+                });
+
+                const solCard = document.createElement('div');
+                solCard.className = 'bg-slate-50 rounded-xl p-5 border border-slate-200 space-y-3';
+                solCard.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <h4 class="font-bold text-slate-800">প্রশ্ন ${index + 1}: ${item.q}</h4>
+                        <div>${badgeHtml}</div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+                        ${optionsSolutionHtml}
+                    </div>
+                    <div class="bg-indigo-50/70 border-l-4 border-indigo-500 p-3 rounded-r-lg text-sm text-indigo-900 mt-3">
+                        <p class="font-semibold mb-1">সঠিক উত্তর ও ব্যাখ্যা:</p>
+                        <p>${item.explanation}</p>
+                    </div>
+                `;
+                solutionsContainer.appendChild(solCard);
+            });
+
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
             <div class="space-y-6">
                 <h3 class="text-xl font-bold text-slate-800 border-b pb-2">সঠিক উত্তর ও ব্যাখ্যাসহ সলিউশন শিট</h3>
                 <div id="solutions-container" class="space-y-6"></div>
