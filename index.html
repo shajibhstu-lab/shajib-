@@ -40,7 +40,7 @@
             <div class="text-center mb-8">
                 <span class="bg-indigo-100 text-indigo-700 text-sm font-semibold px-3 py-1 rounded-full uppercase tracking-wider">কাস্টমাইজড মডেল টেস্ট পোর্টাল</span>
                 <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mt-3">পদার্থবিজ্ঞান (১-৪) ও রসায়ন (১-৪)</h2>
-                <p class="text-slate-600 mt-2">আপনার পছন্দমতো প্রশ্ন সংখ্যা ও তথ্য দিয়ে পরীক্ষা শুরু করুন।</p>
+                <p class="text-slate-600 mt-2">আপনার পছন্দমতো প্রশ্ন সংখ্যা, সময় ও তথ্য দিয়ে পরীক্ষা শুরু করুন।</p>
             </div>
             <form id="reg-form" class="space-y-6 max-w-lg mx-auto">
                 <div>
@@ -52,17 +52,21 @@
                     <input type="text" id="student-roll" placeholder="রোল বা আইডি লিখুন" class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
                 </div>
                 
-                <!-- নতুন যুক্ত হওয়া কাস্টম প্রশ্ন সংখ্যা ইনপুট ফিল্ড -->
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">কতটি প্রশ্নের পরীক্ষা দিতে চান? (সর্বোচ্চ ১৫০টি):</label>
-                    <input type="number" id="custom-question-count" value="50" min="5" max="150" required class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
-                    <p class="text-xs text-slate-500 mt-1">পুলে থাকা মোট প্রশ্ন থেকে আপনার নিবেদিত সংখ্যা অনুযায়ী র‍্যান্ডম প্রশ্ন আসবে।</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">প্রশ্ন সংখ্যা (সর্বোচ্চ ১৫০):</label>
+                        <input type="number" id="custom-question-count" value="50" min="5" max="150" required class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">সময় (মিনিটে):</label>
+                        <input type="number" id="custom-time-limit" value="150" min="1" max="300" required class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                    </div>
                 </div>
 
                 <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-xl text-sm text-amber-800">
                     <p class="font-bold mb-1">⚠️ পরীক্ষার নিয়মাবলী:</p>
                     <ul class="list-disc list-inside space-y-1">
-                        <li>সময়: ১৫০ মিনিট (কাস্টমাইজযোগ্য)।</li>
+                        <li>নির্ধারিত সময়ের মধ্যে পরীক্ষা শেষ করতে হবে।</li>
                         <li>উত্তর একবার দাগানোর পর আর পরিবর্তন করা যাবে না।</li>
                         <li>অন্য ট্যাবে গেলে সতর্কতা গণনা করা হবে।</li>
                     </ul>
@@ -131,12 +135,7 @@
     </footer>
 
     <script>
-        // পরীক্ষার সময় (মিনিটে) - এখানে ১৫০ মিনিট সেট করা আছে
-        const EXAM_DURATION_MINUTES = 150; 
-
-        // পদার্থ ও রসায়ন ১-৪ অধ্যায়ের বোর্ড উপযোগী প্রশ্ন ব্যাংক
         const questionPool = [
-            // পদার্থবিজ্ঞান অধ্যায় ১: ভৌত রাশি ও পরিমাপ
             { q: "এসআই (SI) এককের মূল একক কয়টি?", options: ["৫টি", "৬টি", "৭টি", "৯টি"], answer: 2, explanation: "এসআই পদ্ধতিতে মূল একক ৭টি।" },
             { q: "নিচের কোনটি লব্ধ রাশি?", options: ["দৈর্ঘ্য", "ভর", "ক্ষেত্রফল", "সময়"], answer: 2, explanation: "ক্ষেত্রফল লব্ধ রাশি।" },
             { q: "স্ক্রু-গজের বৃত্তাকার স্কেলের ভাগসংখ্যা সাধারণত কত হয়?", options: ["১০টি", "৫০টি", "১০০টি", "৫০০টি"], answer: 2, explanation: "স্ক্রু-গজের বৃত্তাকার স্কেলের ভাগসংখ্যা সাধারণত ১০০টি।" },
@@ -148,7 +147,6 @@
             { q: "কোনটি মৌলিক রাশি নয়?", options: ["তাপমাত্রা", "তড়িৎ প্রবাহ", "তীব্রতা", "ক্ষেত্রফল"], answer: 3, explanation: "ক্ষেত্রফল একটি লব্ধ রাশি।" },
             { q: "সাধারণ তুলাযন্ত্রের সাহায্যে নিচের কোনটি মাপা হয়?", options: ["ভর", "ওজন", "ত্বরণ", "বল"], answer: 0, explanation: "সাধারণ তুলাযন্ত্র দিয়ে ভর মাপা হয়।" },
 
-            // পদার্থবিজ্ঞান অধ্যায় ২: গতি
             { q: "সুষম বেগে চলমান বস্তুর ত্বরণ কত হয়?", options: ["সর্বোচ্চ", "শূন্য", "ঋণাত্মক", "অসীম"], answer: 1, explanation: "সমবেগে বেগের পরিবর্তন না থাকায় ত্বরণ শূন্য।" },
             { q: "অভিকর্ষজ ত্বরণ \\(g\\)-এর আদর্শ মান কত?", options: ["\\(9.8 \\text{ ms}^{-2}\\)", "\\(9.81 \\text{ ms}^{-2}\\)", "\\(9.78 \\text{ ms}^{-2}\\)", "\\(10 \\text{ ms}^{-2}\\)"], answer: 0, explanation: "অভিকর্ষজ ত্বরণের আদর্শ মান \\(9.8 \\text{ ms}^{-2}\\)।" },
             { q: "সরণ-সময় লেখচিত্রের ঢাল কী নির্দেশ করে?", options: ["ত্বরণ", "বেগ", "বল", "কাজ"], answer: 1, explanation: "সরণ-সময় লেখচিত্রের ঢাল বেগ নির্দেশ করে।" },
@@ -160,7 +158,6 @@
             { q: "তাত্ক্ষণিক বেগ নির্ণয় করা হয় কোনটির মাধ্যমে?", options: ["খুব ছোট সময় ব্যবধানে সরণ", "গড় বেগ", "অতিক্রান্ত মোট দূরত্ব", "মোট সময়"], answer: 0, explanation: "ক্ষুদ্র সময়ের সরণের হার তাত্ক্ষণিক বেগ।" },
             { q: "মন্থরণ হলো—", options: ["ধনাত্মক ত্বরণ", "ঋণাত্মক ত্বরণ", "সমবেগ", "শূন্য ত্বরণ"], answer: 1, explanation: "বেগ হ্রাসের হারকে মন্দন বা ঋণাত্মক ত্বরণ বলে।" },
 
-            // পদার্থবিজ্ঞান অধ্যায় ৩: বল
             { q: "নিউটনের প্রথম সূত্র থেকে কোনটির ধারণা পাওয়া যায়?", options: ["বলের পরিমাপ", "জড়তা ও বলের সংজ্ঞা", "ভরবেগ", "ক্রিয়া ও প্রতিক্রিয়া"], answer: 1, explanation: "প্রথম সূত্র থেকে জড়তা ও বলের সংজ্ঞা পাওয়া যায়।" },
             { q: "বলের এসআই একক কী?", options: ["জুল", "ওয়াট", "নিউটন", "পাসকাল"], answer: 2, explanation: "বলের একক নিউটন।" },
             { q: "নিউটনের কোন সূত্রকে গতির মূল সূত্র বলা হয়?", options: ["প্রথম সূত্র", "দ্বিতীয় সূত্র", "তৃতীয় সূত্র", "মহাকর্ষ সূত্র"], answer: 1, explanation: "দ্বিতীয় সূত্র থেকে বলের পরিমাণ নির্ণয় করা যায় বলে এটি মূল সূত্র।" },
@@ -172,8 +169,7 @@
             { q: "নিউটনের তৃতীয় সূত্র কোনটি নির্দেশ করে?", options: ["বল ও ত্বরণ", "ভর ও বেগ", "প্রতিটি ক্রিয়ারই একটি সমান ও বিপরীত প্রতিক্রিয়া আছে", "জড়তা"], answer: 2, explanation: "তৃতীয় সূত্র হলো ক্রিয়া ও প্রতিক্রিয়া সম্পর্কিত।" },
             { q: "গাড়িতে সিট বেল্ট ব্যবহার করা হয় কেন?", options: ["জড়তার ধাক্কা থেকে রক্ষা পেতে", "বেগ বাড়াতে", "ঘর্ষণ কমাতে", "সৌন্দর্য বর্ধনে"], answer: 0, explanation: "হঠাৎ ব্রেক কষলে জড়তার কারণে সামনের দিকে ঝোঁকা রোধ করতে সিট বেল্ট ব্যবহার করা হয়।" },
 
-            // পদার্থবিজ্ঞান অধ্যায় ৪: কাজ, শক্তি ও ক্ষমতা
-            { q: "কাজের এসআই একক কী?", options: ["নিউটন", "ওয়াট", "জুল", "পাসকাল"], answer: 2, explanation: "কাজের একক জুল (J)।" },
+            { q: "কাজের এসআই একক কী?", options: ["নিউটন", "ওয়াট", "জুল", "পাসকাল"], answer: 2, explanation: "কাজের একক জুল (J)." },
             { q: "বল ও স্মরণের মধ্যবর্তী কোণ \\(90^\\circ\\) হলে কাজের পরিমাণ কত?", options: ["সর্বোচ্চ", "শূন্য", "অসীম", "ঋণাত্মক"], answer: 1, explanation: "\\(W = Fs \\cos 90^\\circ = 0\\)।" },
             { q: "ক্ষমতার মাত্রা কোনটি?", options: ["\\([ML^2T^{-2}]\\)", "\\([ML^2T^{-3}]\\)", "\\([MLT^{-2}]\\)", "\\([ML^{-1}T^{-2}]\\)"], answer: 1, explanation: "ক্ষমতার মাত্রা \\([ML^2T^{-3}]\\)।" },
             { q: "গতিশক্তি ও ভরবেগের মধ্যকার সঠিক সম্পর্ক কোনটি?", options: ["\\(E_k = \\frac{p^2}{2m}\\)", "\\(E_k = \\frac{2m}{p^2}\\)", "\\(E_k = \\frac{p}{2m}\\)", "\\(E_k = p^2m\\)"], answer: 0, explanation: "গতিশক্তি \\(E_k = \\frac{p^2}{2m}\\)।" },
@@ -184,7 +180,6 @@
             { q: "বান্ধের জমা পানিতে কোন শক্তি সঞ্চিত থাকে?", options: ["গতিশক্তি", "স্থিতিশক্তি", "তাপশক্তি", "তড়িৎ শক্তি"], answer: 1, explanation: "উচ্চতায় জমানো পানিতে বিভব বা স্থিতিশক্তি থাকে।" },
             { q: "বায়ু শক্তি মূলত কোন শক্তির রূপান্তর?", options: ["সৌর শক্তি", "ভূ-তাপীয় শক্তি", "পারমাণবিক শক্তি", "যান্ত্রিক শক্তি"], answer: 0, explanation: "সূর্যের আলোর প্রভাবে বায়ুপ্রবাহ সৃষ্টি হয়, তাই এটি সৌর শক্তির রূপান্তর।" },
 
-            // রসায়ন অধ্যায় ১: রসায়নের ধারণা
             { q: "রসায়ন বিজ্ঞানের মূল আলোচ্য বিষয় কোনটি?", options: ["মহাকাশ ও নক্ষত্র", "পদার্থের গঠন, ধর্ম ও পরিবর্তন", "জীবদেহের রোগ ও চিকিৎসা", "বিদ্যুৎ ক্ষেত্র"], answer: 1, explanation: "পদার্থের গঠন, বৈশিষ্ট্য এবং রাসায়নিক পরিবর্তন হলো রসায়নের মূল বিষয়।" },
             { q: "জাবির ইবনে হাইয়ানকে কিসের জনক বলা হয়?", options: ["পদার্থবিজ্ঞানের", "আরবীয় রসায়নের", "জীববিজ্ঞানের", "জ্যোতির্বিজ্ঞানের"], answer: 1, explanation: "জাবির ইবনে হাইয়ান আরবীয় রসায়নের জনক।" },
             { q: "কোনটি ভৌত পরিবর্তনের উদাহরণ?", options: ["লোহায় মরিচা ধরা", "মোম জ্বালানো", "বরফ গলন", "দুধ থেকে ছানা তৈরি"], answer: 2, explanation: "বরফ গলে পানি হওয়া ভৌত পরিবর্তন।" },
@@ -196,7 +191,6 @@
             { q: "কাঁচের তৈরি উপকরণের নিখুঁত পরিষ্কারক কোনটি?", options: ["লবণ পানি", "পাতিত পানি ও ডিটারজেন্ট", "গাঢ় সালফিউরিক এসিড", "কেরোসিন"], answer: 1, explanation: "পাতিত পানি বা ডিটারজেন্ট দিয়ে কাঁচপাত্র পরিষ্কার করা হয়।" },
             { q: "রসায়নের গবেষণায় তুঁতে উত্তপ্ত করলে নীল রঙ হারিয়ে সাদা হওয়ার কারণ কী?", options: ["রাসায়নিক পরিবর্তন", "কেলাস পানি হারানো", "নতুন যৌগ সৃষ্টি", "কার্বন জমা হওয়া"], answer: 1, explanation: "এটি তুঁতের কেলাস পানি হারানোর ভৌত-রাসায়নিক প্রক্রিয়া।" },
 
-            // রসায়ন অধ্যায় ২: পদার্থের অবস্থা
             { q: "পদার্থের কয়টি সাধারণ অবস্থা বিদ্যমান?", options: ["২টি", "৩টি", "৪টি", "৫টি"], answer: 1, explanation: "প্রধানত কঠিন, তরল ও বায়বীয়—এই ৩টি সাধারণ অবস্থা।" },
             { q: "নির্দিষ্ট আকার আছে কোনটির?", options: ["কঠিন পদার্থ", "তরল পদার্থ", "বায়বীয় পদার্থ", "প্লাজমা"], answer: 0, explanation: "কঠিন পদার্থের নির্দিষ্ট আকার ও আয়তন থাকে।" },
             { q: "ব্যাপন হার সবচেয়ে বেশি কোনটিতে?", options: ["কঠিন", "তরল", "গ্যাসীয় বা বায়বীয়", "সব সমান"], answer: 2, explanation: "বায়বীয় পদার্থের কণার গতিশক্তি বেশি হওয়ায় ব্যাপন হার সবচেয়ে বেশি।" },
@@ -208,7 +202,6 @@
             { q: "ব্রাউনীয় গতি মূলত কিসের সাথে সম্পর্কিত?", options: ["কণার এলোমেলো গতি", "স্থিরতা", "চাপ প্রয়োগ", "রাসায়নিক বন্ধন"], answer: 0, explanation: "তরল বা গ্যাসে কণার এলোমেলো ও অবিরাম গতি ব্রাউনীয় গতি।" },
             { q: "তাপমাত্রা বাড়লে ব্যাপনের হার—", options: ["কমে", "বাড়ে", "অপরাপর থাকে", "শূন্য হয়"], answer: 1, explanation: "তাপমাত্রা বাড়লে কণার গতিশক্তি বাড়ে, ফলে ব্যাপন দ্রুত হয়।" },
 
-            // রসায়ন অধ্যায় ৩: পদার্থের গঠন
             { q: "পরমাণুর নিউক্লিয়াসে প্রধানত কী কী কণা থাকে?", options: ["প্রোটন ও ইলেকট্রন", "প্রোটন ও নিউট্রন", "ইলেকট্রন ও নিউট্রন", "শুধু প্রোটন"], answer: 1, explanation: "নিউক্লিয়াসে প্রোটন ও নিউট্রন থাকে।" },
             { q: "ইলেকট্রন কে আবিষ্কার করেন?", options: ["রাদারফোর্ড", "জে. জে. থমসন", "চ্যাডউইক", "বোর"], answer: 1, explanation: "জে. জে. থমসন ক্যাথোড রশ্মি পরীক্ষার মাধ্যমে ইলেকট্রন আবিষ্কার করেন।" },
             { q: "নিউট্রনের ভর কত?", options: ["\\(9.11 \\times 10^{-31} \\text{ kg}\\)", "\\(1.673 \\times 10^{-27} \\text{ kg}\\)", "\\(1.675 \\times 10^{-27} \\text{ kg}\\)", "\\(0\\)"], answer: 2, explanation: "নিউট্রনের ভর প্রায় \\(1.675 \\times 10^{-27} \\text{ kg}\\)।" },
@@ -220,7 +213,6 @@
             { q: "তেজস্ক্রিয় আইসোটোপ চিকিৎসায় কোনটি ব্যবহৃত হয়?", options: ["\\(^{60}Co\\)", "\\(^{12}C\\)", "\\(^{14}N\\)", "\\(^{16}O\\)"], answer: 0, explanation: "ক্যান্সার চিকিৎসায় কোবাল্ট-৬০ ব্যবহৃত হয়।" },
             { q: "প্রধান কোয়ান্টাম সংখ্যা \\(n = 3\\) হলে মোট অরবিটাল সংখ্যা কত?", options: ["৩টি", "৬টি", "৯টি", "১৬টি"], answer: 2, explanation: "মোট অরবিটাল \\(n^2 = 3^2 = 9\\)টি।" },
 
-            // রসায়ন অধ্যায় ৪: পর্যায় সারণি
             { q: "আধুনিক পর্যায় সারণির ভিত্তি কী?", options: ["পারমাণবিক ভর", "পারমাণবিক সংখ্যা", "নিউট্রন সংখ্যা", "যোজ্যতা"], answer: 1, explanation: "মোজলের আধুনিক পর্যায় সূত্র পারমাণবিক সংখ্যার ওপর প্রতিষ্ঠিত।" },
             { q: "পর্যায় সারণিতে মোট কয়টি গ্রুপ বা কলাম আছে?", options: ["৭টি", "৮টি", "১৬টি", "১৮টি"], answer: 3, explanation: "আধুনিক পর্যায় সারণিতে ১৮টি গ্রুপ রয়েছে।" },
             { q: "পর্যায় সারণির অনুভূমিক সারিগুলোকে কী বলা হয়?", options: ["গ্রুপ", "পর্যায়", "ব্লক", "কলাম"], answer: 1, explanation: "অনুভূমিক সারিগুলো হলো পর্যায় (Period)।" },
@@ -232,7 +224,6 @@
             { q: "গ্রুপ-২ এর মৌলগুলোকে কী বলা হয়?", options: ["ক্ষার ধাতু", "মৃৎক্ষার ধাতু", "হ্যালোজেন", "মুদ্রা ধাতু"], answer: 1, explanation: "গ্রুপ ২ এর মৌল হলো মৃৎক্ষার ধাতু।" },
             { q: "মেন্ডেলিফের পর্যায় সারণিতে কয়টি পর্যায় ছিল?", options: ["৬টি", "৭টি", "৮টি", "৯টি"], answer: 1, explanation: "মেন্ডেলিফের মূল সারণিতে ৭টি পর্যায় ছিল।" },
 
-            // অতিরিক্ত প্রশ্ন
             { q: "কোন যন্ত্রের সাহায্যে বায়ুমণ্ডলের চাপ মাপা হয়?", options: ["ল্যাকটোমিটার", "ব্যারোমিটার", "ম্যানোমিটার", "থার্মোমিটার"], answer: 1, explanation: "ব্যারোমিটার দিয়ে বায়ুমণ্ডলের চাপ মাপা হয়।" },
             { q: "পদার্থের চতুর্থ অবস্থাকে কী বলা হয়?", options: ["বোজ-আইনস্টাইন কন্ডেনসেট", "প্লাজমা", "তরল", "কঠিন"], answer: 1, explanation: "প্লাজমা হলো পদার্থের চতুর্থ অবস্থা।" },
             { q: "কোন মৌলটির ইলেকট্রন বিন্যাসে হুন্ডের নিয়ম ব্যত্যয় ঘটে?", options: ["\\(Cr\\)", "\\(Mg\\)", "\\(Al\\)", "\\(Cl\\)"], answer: 0, explanation: "ক্রোমিয়াম (Cr) ও কপার (Cu) এর ইলেকট্রন বিন্যাসে হুন্ডের নিয়মের ব্যতিক্রম দেখা যায়।" },
@@ -248,7 +239,7 @@
         let currentQuestions = [];
         let userAnswers = {};
         let timerInterval;
-        let timeLeft = EXAM_DURATION_MINUTES * 60;
+        let timeLeft = 0;
         let warningCount = 3;
         let isExamSubmitted = false;
 
@@ -266,6 +257,7 @@
             const name = document.getElementById('student-name').value.trim();
             const roll = document.getElementById('student-roll').value.trim();
             const requestedCount = parseInt(document.getElementById('custom-question-count').value);
+            const requestedMinutes = parseInt(document.getElementById('custom-time-limit').value);
 
             if (!name) {
                 alert('দয়া করে আপনার নাম লিখুন।');
@@ -275,10 +267,15 @@
                 alert('দয়া করে সঠিক প্রশ্ন সংখ্যা দিন।');
                 return;
             }
+            if (isNaN(requestedMinutes) || requestedMinutes < 1) {
+                alert('দয়া করে সঠিক সময় (মিনিট) দিন।');
+                return;
+            }
 
             window.studentName = name;
             window.studentRoll = roll ? roll : 'প্রযোজ্য নয়';
             window.examQuestionCount = requestedCount;
+            timeLeft = requestedMinutes * 60; // মিনিটকে সেকেন্ডে রূপান্তর
             
             document.getElementById('registration-section').classList.add('hidden');
             document.getElementById('quiz-section').classList.remove('hidden');
@@ -291,7 +288,6 @@
 
         function initializeQuiz() {
             let shuffledPool = shuffleArray(questionPool);
-            // ইউজারের দেওয়া সংখ্যা এবং মোট পুলের মধ্যে যেটি কম, সে অনুযায়ী প্রশ্ন সিলেক্ট করবে
             let selectCount = Math.min(window.examQuestionCount, shuffledPool.length);
             
             currentQuestions = shuffledPool.slice(0, selectCount).map(q => {
@@ -337,7 +333,6 @@
             }
         }
 
-        // একবার উত্তর দিলে লক করার ফাংশন
         function lockQuestion(qIndex) {
             const radios = document.querySelectorAll(`input[name="question-${qIndex}"]`);
             radios.forEach(radio => {
@@ -463,7 +458,7 @@
                     }
                     optionsSolutionHtml += `
                         <div class="p-2.5 rounded-lg border ${styleClass} text-sm">
-                            ${optionLetters[optIdx]}. প্রশ্ন ${opt}
+                            ${optionLetters[optIdx]}. ${opt}
                         </div>
                     `;
                 });
