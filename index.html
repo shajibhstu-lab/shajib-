@@ -35,12 +35,12 @@
     </header>
 
     <main class="max-w-4xl w-full mx-auto p-4 md:p-6 my-6 flex-grow">
-        <!-- রেজিস্ট্রেশন সেকশন -->
+        <!-- রেজিস্ট্রেশন ও কাস্টমাইজেশন সেকশন -->
         <div id="registration-section" class="bg-white rounded-2xl shadow-xl p-6 md:p-10 border border-indigo-100">
             <div class="text-center mb-8">
-                <span class="bg-indigo-100 text-indigo-700 text-sm font-semibold px-3 py-1 rounded-full uppercase tracking-wider">বোর্ড পরীক্ষার মেগা মডেল টেস্ট</span>
+                <span class="bg-indigo-100 text-indigo-700 text-sm font-semibold px-3 py-1 rounded-full uppercase tracking-wider">কাস্টমাইজড মডেল টেস্ট পোর্টাল</span>
                 <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mt-3">পদার্থবিজ্ঞান (১-৪) ও রসায়ন (১-৪)</h2>
-                <p class="text-slate-600 mt-2">১৫০টি প্রশ্ন এবং ১৫০ মিনিটের পরীক্ষা। একবার উত্তর সিলেক্ট করলে পরিবর্তন করা যাবে না।</p>
+                <p class="text-slate-600 mt-2">আপনার পছন্দমতো প্রশ্ন সংখ্যা ও তথ্য দিয়ে পরীক্ষা শুরু করুন।</p>
             </div>
             <form id="reg-form" class="space-y-6 max-w-lg mx-auto">
                 <div>
@@ -51,10 +51,18 @@
                     <label class="block text-sm font-semibold text-slate-700 mb-2">রোল নম্বর / আইডি (ঐচ্ছিক):</label>
                     <input type="text" id="student-roll" placeholder="রোল বা আইডি লিখুন" class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
                 </div>
+                
+                <!-- নতুন যুক্ত হওয়া কাস্টম প্রশ্ন সংখ্যা ইনপুট ফিল্ড -->
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">কতটি প্রশ্নের পরীক্ষা দিতে চান? (সর্বোচ্চ ১৫০টি):</label>
+                    <input type="number" id="custom-question-count" value="50" min="5" max="150" required class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                    <p class="text-xs text-slate-500 mt-1">পুলে থাকা মোট প্রশ্ন থেকে আপনার নিবেদিত সংখ্যা অনুযায়ী র‍্যান্ডম প্রশ্ন আসবে।</p>
+                </div>
+
                 <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-xl text-sm text-amber-800">
                     <p class="font-bold mb-1">⚠️ পরীক্ষার নিয়মাবলী:</p>
                     <ul class="list-disc list-inside space-y-1">
-                        <li>মোট প্রশ্ন: ১৫০টি | সময়: ১৫০ মিনিট।</li>
+                        <li>সময়: ১৫০ মিনিট (কাস্টমাইজযোগ্য)।</li>
                         <li>উত্তর একবার দাগানোর পর আর পরিবর্তন করা যাবে না।</li>
                         <li>অন্য ট্যাবে গেলে সতর্কতা গণনা করা হবে।</li>
                     </ul>
@@ -123,14 +131,10 @@
     </footer>
 
     <script>
-        // ==========================================
-        // কাস্টমাইজেশন সেটিংস
-        // ==========================================
-        const EXAM_DURATION_MINUTES = 150; // পরীক্ষার সময় ১৫০ মিনিট
-        const DESIRED_QUESTION_COUNT = 150; // ১৫০টি প্রশ্ন
-        // ==========================================
+        // পরীক্ষার সময় (মিনিটে) - এখানে ১৫০ মিনিট সেট করা আছে
+        const EXAM_DURATION_MINUTES = 150; 
 
-        // পদার্থ ও রসায়ন ১-৪ অধ্যায়ের বোর্ড উপযোগী ১৫০টি প্রশ্নের ব্যাংক
+        // পদার্থ ও রসায়ন ১-৪ অধ্যায়ের বোর্ড উপযোগী প্রশ্ন ব্যাংক
         const questionPool = [
             // পদার্থবিজ্ঞান অধ্যায় ১: ভৌত রাশি ও পরিমাপ
             { q: "এসআই (SI) এককের মূল একক কয়টি?", options: ["৫টি", "৬টি", "৭টি", "৯টি"], answer: 2, explanation: "এসআই পদ্ধতিতে মূল একক ৭টি।" },
@@ -221,14 +225,14 @@
             { q: "পর্যায় সারণিতে মোট কয়টি গ্রুপ বা কলাম আছে?", options: ["৭টি", "৮টি", "১৬টি", "১৮টি"], answer: 3, explanation: "আধুনিক পর্যায় সারণিতে ১৮টি গ্রুপ রয়েছে।" },
             { q: "পর্যায় সারণির অনুভূমিক সারিগুলোকে কী বলা হয়?", options: ["গ্রুপ", "পর্যায়", "ব্লক", "কলাম"], answer: 1, explanation: "অনুভূমিক সারিগুলো হলো পর্যায় (Period)।" },
             { q: "গ্রুপ-১ এর মৌলগুলোকে সাধারণ কী বলা হয়?", options: ["হ্যালোজেন", "ক্ষার ধাতু", "মৃৎক্ষার ধাতু", "নিষ্ক্রিয় গ্যাস"], answer: 1, explanation: "গ্রুপ ১ এর মৌলগুলো ক্ষার ধাতু (Alkali metals) নামে পরিচিত।" },
-            { q: "হ্যালোজেন মৌলগুলো পর্যায় সারণির কোন গ্রুপের অন্তর্ভুক্ত?", options: ["গ্রুপ ১৫", "গ্রুপ ১৬", "গ্রুপ ১৭", "গ্রুপ ১৮"], answer: 2, explanation: "গ্রুপ ১৭ এর মৌলগুলো হলো হ্যালোজেন (ফ্লোরিন, ক্লোরিন ইত্যাদি)।" },
+            { q: "হ্যালোজেন মৌলগুলো পর্যায় সারণির কোন গ্রুপের অন্তর্ভুক্ত?", options: ["গ্রুপ ১৫", "গ্রুপ ১৬", "গ্রুপ ১৭", "গ্রুপ ১৮"], answer: 2, explanation: "গ্রুপ ১৭ এর মৌলগুলো হলো হ্যালোজেন।" },
             { q: "পর্যায় সারণির কোন গ্রুপে নিষ্ক্রিয় গ্যাসগুলো অবস্থিত?", options: ["গ্রুপ ১", "গ্রুপ ১২", "গ্রুপ ১৭", "গ্রুপ ১৮"], answer: 3, explanation: "গ্রুপ ১৮ তে নোবেল গ্যাস বা নিষ্ক্রিয় গ্যাস রয়েছে।" },
             { q: "পর্যায়ে বাম দিক থেকে ডান দিকে গেলে পারমাণবিক ব্যাসার্ধ সাধারণত কেমন হয়?", options: ["বাড়ে", "কমে", "অপরিবর্তিত থাকে", "প্রথমে বাড়ে পরে কমে"], answer: 1, explanation: "বামে থেকে ডানে গেলে নিউক্লিয়াসের চার্জ বৃদ্ধির কারণে ব্যাসার্ধ কমে।" },
             { q: "নিচের কোনটি অবস্থান্তর মৌল?", options: ["\\(Na\\)", "\\(Ca\\)", "\\(Fe\\)", "\\(Cl\\)"], answer: 2, explanation: "লোহা (Fe) একটি অবস্থান্তর মৌল।" },
             { q: "গ্রুপ-২ এর মৌলগুলোকে কী বলা হয়?", options: ["ক্ষার ধাতু", "মৃৎক্ষার ধাতু", "হ্যালোজেন", "মুদ্রা ধাতু"], answer: 1, explanation: "গ্রুপ ২ এর মৌল হলো মৃৎক্ষার ধাতু।" },
             { q: "মেন্ডেলিফের পর্যায় সারণিতে কয়টি পর্যায় ছিল?", options: ["৬টি", "৭টি", "৮টি", "৯টি"], answer: 1, explanation: "মেন্ডেলিফের মূল সারণিতে ৭টি পর্যায় ছিল।" },
 
-            // [১৫০টি পূর্ণ করার জন্য আরও অতিরিক্ত বোর্ড স্ট্যান্ডার্ড প্রশ্ন সংযোজন (অধ্যায় ১-৪)]
+            // অতিরিক্ত প্রশ্ন
             { q: "কোন যন্ত্রের সাহায্যে বায়ুমণ্ডলের চাপ মাপা হয়?", options: ["ল্যাকটোমিটার", "ব্যারোমিটার", "ম্যানোমিটার", "থার্মোমিটার"], answer: 1, explanation: "ব্যারোমিটার দিয়ে বায়ুমণ্ডলের চাপ মাপা হয়।" },
             { q: "পদার্থের চতুর্থ অবস্থাকে কী বলা হয়?", options: ["বোজ-আইনস্টাইন কন্ডেনসেট", "প্লাজমা", "তরল", "কঠিন"], answer: 1, explanation: "প্লাজমা হলো পদার্থের চতুর্থ অবস্থা।" },
             { q: "কোন মৌলটির ইলেকট্রন বিন্যাসে হুন্ডের নিয়ম ব্যত্যয় ঘটে?", options: ["\\(Cr\\)", "\\(Mg\\)", "\\(Al\\)", "\\(Cl\\)"], answer: 0, explanation: "ক্রোমিয়াম (Cr) ও কপার (Cu) এর ইলেকট্রন বিন্যাসে হুন্ডের নিয়মের ব্যতিক্রম দেখা যায়।" },
@@ -239,7 +243,6 @@
             { q: "সবচেয়ে বেশি তড়িৎ ঋণাত্মক মৌল কোনটি?", options: ["ক্লোরিন", "ফ্লোরিন", "অক্সিজেন", "নাইট্রোজেন"], answer: 1, explanation: "পর্যায় সারণিতে ফ্লোরিনের তড়িৎ ঋণাত্মকতা সর্বাধিক।" },
             { q: "পর্যায় সারণির জনক কে?", options: ["মেন্ডেলিফ", "মোজলে", "রাদারফোর্ড", "ল্যাভেসিয়ার"], answer: 0, explanation: "দিমিত্রি মেন্ডেলিফকে পর্যায় সারণির জনক বলা হয়।" },
             { q: "এক নিউটন বল প্রয়োগে ১ কেজি ভরের বস্তুতে যে ত্বরণ সৃষ্টি হয় তাকে কী বলে?", options: ["\\(1 \\text{ ms}^{-2}\\)", "\\(9.8 \\text{ ms}^{-2}\\)", "\\(0\\)", "\\(10 \\text{ ms}^{-2}\\)"], answer: 0, explanation: " \\(a = \\frac{F}{m} = 1 \\text{ ms}^{-2}\\)।" }
-            // (নোট: ১৫০টি প্রশ্ন কোডের ডাটাবেজে স্বয়ংক্রিয়ভাবে মিক্সড ও রেন্ডম করার লজিক দেওয়া আছে)।
         ];
 
         let currentQuestions = [];
@@ -262,12 +265,20 @@
             e.preventDefault();
             const name = document.getElementById('student-name').value.trim();
             const roll = document.getElementById('student-roll').value.trim();
+            const requestedCount = parseInt(document.getElementById('custom-question-count').value);
+
             if (!name) {
                 alert('দয়া করে আপনার নাম লিখুন।');
                 return;
             }
+            if (isNaN(requestedCount) || requestedCount < 1) {
+                alert('দয়া করে সঠিক প্রশ্ন সংখ্যা দিন।');
+                return;
+            }
+
             window.studentName = name;
             window.studentRoll = roll ? roll : 'প্রযোজ্য নয়';
+            window.examQuestionCount = requestedCount;
             
             document.getElementById('registration-section').classList.add('hidden');
             document.getElementById('quiz-section').classList.remove('hidden');
@@ -280,7 +291,8 @@
 
         function initializeQuiz() {
             let shuffledPool = shuffleArray(questionPool);
-            let selectCount = Math.min(DESIRED_QUESTION_COUNT, shuffledPool.length);
+            // ইউজারের দেওয়া সংখ্যা এবং মোট পুলের মধ্যে যেটি কম, সে অনুযায়ী প্রশ্ন সিলেক্ট করবে
+            let selectCount = Math.min(window.examQuestionCount, shuffledPool.length);
             
             currentQuestions = shuffledPool.slice(0, selectCount).map(q => {
                 const optionsWithIndex = q.options.map((opt, idx) => ({ opt, originalIndex: idx }));
@@ -451,7 +463,7 @@
                     }
                     optionsSolutionHtml += `
                         <div class="p-2.5 rounded-lg border ${styleClass} text-sm">
-                            ${optionLetters[optIdx]}. ${opt}
+                            ${optionLetters[optIdx]}. প্রশ্ন ${opt}
                         </div>
                     `;
                 });
